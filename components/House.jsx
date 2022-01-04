@@ -1,8 +1,9 @@
 import Link from "next/link";
+import Layout from "./Layout";
 
 export default function House({ type, town, title, picture, id }) {
     return (
-        <div>
+        <Layout content={<div>
             <Link href="/houses/[id]" as={'/houses/' + id}>
                 <a >
                     <img src={picture} width="100%" alt="House picture" />
@@ -14,6 +15,10 @@ export default function House({ type, town, title, picture, id }) {
 
             </Link>
 
-        </div>
+        </div>} />
+
+
+
+
     )
 }

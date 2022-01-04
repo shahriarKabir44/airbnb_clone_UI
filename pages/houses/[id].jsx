@@ -1,9 +1,10 @@
 import Head from "next/head";
+import Layout from "../../components/Layout";
 
 function House({ house }) {
     var { id, picture, type, town, title, description, guests } = house
     return (
-        <div>
+        <Layout content={<div>
             <Head>
                 <title> {title} </title>
             </Head>
@@ -14,7 +15,8 @@ function House({ house }) {
             <p>{description}</p>
             <p>{guests}</p>
 
-        </div>
+        </div>} />
+
     );
 }
 export async function getServerSideProps({ query }) {
