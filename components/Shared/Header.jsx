@@ -1,5 +1,5 @@
 import Link from "next/link";
-function Header(props) {
+function Header() {
     return (
         <div className="nav-container">
             <Link href="/">

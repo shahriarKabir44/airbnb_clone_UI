@@ -14,7 +14,7 @@ function formatDate(date, formatString, locale) {
     return dateFnsFormat(date, formatString, { locale })
 }
 
-function DateRangePicker(props) {
+function DateRangePicker({ setStayDuration }) {
     const [startDate, setStartDate] = useState(new Date())
     const [endDate, setEndDate] = useState(new Date((new Date() * 1) + 24 * 3600 * 1000))
 
@@ -26,7 +26,18 @@ function DateRangePicker(props) {
         setStartDate(date)
         if (endDate * 1 < date * 1) {
             setEndDate(date)
+            setStayDuration(1)
+            return
         }
+        setStayDuration(getStayDuration(date, endDate))
+    }
+    /**
+     * 
+     * @param {Date} startDay 
+     * @param {Date} endDay 
+     */
+    function getStayDuration(startDay, endDay) {
+        return Math.floor((endDay * 1 - startDay * 1) / (24 * 3600 * 1000)) + 1
     }
     /**
      * 
@@ -35,8 +46,8 @@ function DateRangePicker(props) {
 
     function updateEndDate(endTime) {
         var dateDif = Math.floor((endTime * 1 - startDate * 1) / (24 * 3600 * 1000))
-        console.log(dateDif);
         if (dateDif >= 1) {
+            setStayDuration(getStayDuration(startDate, endTime))
             setEndDate(endTime)
         }
     }
@@ -86,7 +97,11 @@ function DateRangePicker(props) {
                     grid-template-columns: 30% auto;
                     padding: 0.5em;
                 }
-                 
+                .DayPickerInput > input {
+                    width: 120px;
+                    padding: 10px;
+                    font-size: 16px;
+                  }
             
             `}</style>
         </div>
