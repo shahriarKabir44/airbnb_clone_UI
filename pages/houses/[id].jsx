@@ -1,4 +1,5 @@
 import Head from "next/head";
+import DateRangePicker from "../../components/DateRangePicker";
 import Layout from "../../components/Layout";
 
 function House({ house }) {
@@ -18,7 +19,9 @@ function House({ house }) {
                     <p>{description}</p>
                     <p>{guests}</p>
                 </article>
-                <aside>xnxx</aside>
+                <aside>
+                    <DateRangePicker />
+                </aside>
             </div>
             <style jsx>{`
             .container{
