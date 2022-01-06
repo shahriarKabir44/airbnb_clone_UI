@@ -5,20 +5,19 @@ import Modal from "./Modal";
 import Login from "../Unauthorized/Login";
 import Signup from "../Unauthorized/Signup";
 function Layout({ content }) {
-    const [modalStatus, setModalStatus] = useState(false)
+    const [modalStatus, setModalStatus] = useState(0)
     const [modalType, toggleModalType] = useState(1)
     useEffect(() => {
         ModalToggleService.getState().subscribe(({ state }) => {
-            if (!state) toggleModalType(1)
             setModalStatus(state)
         })
     }, [])
     return (
         <div>
             <Header />
-            {modalStatus && <Modal toggleModalState={setModalStatus}  >
-                {modalType == 1 && <Login toggleModalType={toggleModalType} />}
-                {modalType == 2 && <Signup toggleModalType={toggleModalType} />}
+            {modalStatus !== 0 && <Modal toggleModalState={setModalStatus}  >
+                {modalStatus == 1 && <Login toggleModalType={setModalStatus} />}
+                {modalStatus == 2 && <Signup toggleModalType={setModalStatus} />}
             </Modal>}
             <main> {content} </main>
             <style jsx>

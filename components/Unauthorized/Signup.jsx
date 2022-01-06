@@ -1,11 +1,14 @@
 import React from 'react';
 
 function Signup({ toggleModalType }) {
+    function register(e) {
+        e.preventDefault()
+    }
     return (
         <div>
             <h2>Sign up</h2>
             <div>
-                <form>
+                <form onSubmit={(e) => { register(e) }}>
                     <input className='unauthorizedActionForm' id="email" type="email" placeholder="Email address" />
                     <input className='unauthorizedActionForm' id="password" type="password" placeholder="Password" />
                     <input className='unauthorizedActionForm'
@@ -16,6 +19,7 @@ function Signup({ toggleModalType }) {
                     <button className='formActionBtn' >Sign up</button>
                 </form>
             </div>
+            <hr />
             <b>Already have an account? <u onClick={() => { toggleModalType(1) }} >Log in</u> </b>
 
         </div>

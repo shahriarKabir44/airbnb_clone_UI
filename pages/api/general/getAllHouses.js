@@ -1,4 +1,4 @@
-import houses from '../../houses'
+import houses from '../houses'
 
 export default function getAllHouses(req, res) {
     res.status(200).send({ houses: houses })

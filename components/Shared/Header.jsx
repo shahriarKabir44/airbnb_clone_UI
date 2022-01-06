@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ModalToggleService from "../../services/ModalToggleService";
 function Header() {
     return (
         <div className="nav-container">
@@ -8,11 +9,11 @@ function Header() {
             <nav>
 
                 <ul className="nav_ul">
-                    <li className="nav_item">
-                        <Link href='/login' > Log in </Link>
+                    <li className="nav_item" onClick={(e) => { e.preventDefault(); ModalToggleService.setState(1) }}>
+                        <Link href='#'  > Log in </Link>
                     </li>
-                    <li className="nav_item">
-                        <Link href='/signup' > Sign up </Link>
+                    <li className="nav_item" onClick={(e) => { e.preventDefault(); ModalToggleService.setState(2) }}>
+                        <Link href='#' > Sign up </Link>
                     </li>
                 </ul>
             </nav>
@@ -29,7 +30,7 @@ function Header() {
                         display: flex;
                     }
                     .nav_item{
-                        padding: 1em .5em
+                        padding: .7em .5em
                     }
                     `
                 }

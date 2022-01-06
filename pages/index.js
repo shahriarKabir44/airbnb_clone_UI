@@ -5,11 +5,11 @@ import Globals from '../Globals'
 export default function Home() {
 	const [houses, setHouses] = useState([])
 	useEffect(() => {
-		fetch(Globals.getAllHousesPath)
-			.then(res => res.json())
+		Globals.httpRequest(Globals.getAllHousesPath)
 			.then(houseList => {
 				setHouses(houseList.houses)
 			})
+
 	}, [])
 	return (
 		<Layout content={

@@ -7,11 +7,9 @@ import ModalToggleService from "../../services/ModalToggleService";
 import Globals from "../../Globals";
 function House({ house }) {
     const [stayDuration, setStayDuration] = useState(1)
-    const [canShowModal, toggleModalState] = useState(false)
     var { id, picture, type, town, title, description, guests, price } = house
     function bookRoom(id) {
-        ModalToggleService.setState(true)
-        toggleModalState(true)
+        ModalToggleService.setState(1)
     }
     return (
         <Layout content={<div>
@@ -71,7 +69,7 @@ function House({ house }) {
 }
 export async function getServerSideProps({ query }) {
     const { id } = query
-    var { house } = await fetch(`${Globals.getHousePath}${id}`).then(res => res.json())
+    var { house } = await Globals.httpRequest(`${Globals.getHousePath}${id}`)
     return {
         props: { house: house }
     }

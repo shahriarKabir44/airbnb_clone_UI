@@ -1,4 +1,4 @@
-import houses from '../../../houses'
+import houses from '../../houses'
 
 export default function getHouse(req, res) {
     var { Id } = (req.query);

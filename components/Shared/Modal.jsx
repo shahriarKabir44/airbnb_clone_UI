@@ -3,7 +3,7 @@
 function Modal({ children, toggleModalState }) {
     return (
         <div className="nav-container">
-            <div className="modal-background" onClick={() => toggleModalState(false)}>
+            <div className="modal-background" onClick={() => toggleModalState(0)}>
 
             </div>
             <div className="modal-body">
