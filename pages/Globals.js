@@ -4,6 +4,8 @@ class Globals {
    static getAllHousesPath = "/api/general/getAllHouses/"
    static getHousePath = "/api/general/getHouse/"
    static loginPath = '/api/unauthorized/login'
+   static registerPath = '/api/unauthorized/register'
+
    static checkAuthorizeization = 'api/unauthorized/isAuthorized'
    static async httpRequest(path, body = null) {
       var data = {

@@ -1,3 +1,4 @@
+import User from "../models/User"
 export default function register(req, res) {
-    res.status(200).send({ houses: houses })
+    res.send(User.register(req.body))
 }

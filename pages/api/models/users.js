@@ -6,3 +6,4 @@ var userList = [
 
     }
 ]
+export default userList

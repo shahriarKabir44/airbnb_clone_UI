@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Globals from '../../pages/Globals'
+import CurrentUserService from '../../services/CurrentUserService'
 function Login({ toggleModalType }) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -9,8 +10,12 @@ function Login({ toggleModalType }) {
             password: password,
             email: email
         }
-        var response = await Globals.httpRequest(Globals.loginPath, data)
-        console.log(response);
+        var payload = await Globals.httpRequest(Globals.registerPath, data)
+        if (!payload) localStorage.clear()
+        else {
+            localStorage.setItem('token', payload.token)
+            CurrentUserService.setCurrentUser(payload.user)
+        }
     }
     return (
         <div>
