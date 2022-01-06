@@ -17,3 +17,26 @@ a {
 * {
   box-sizing: border-box;
 }
+.formActionBtn{
+  background-color: rgb(255, 90, 95);
+  color: white;
+  width: 100%;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  padding: 0.7em;
+  font-size: 15px;
+}
+.unauthorizedActionForm{
+  display: block;
+  padding: 20px;
+  font-size: 20px !important;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+u{
+  cursor: pointer
+}

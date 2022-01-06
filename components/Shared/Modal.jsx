@@ -21,7 +21,8 @@ function Modal({ children, toggleModalState }) {
                         z-index:100;
                     }
                     .modal-body{
-                        width: 50vw;
+                        width: calc(100vw - 4em);
+                        max-width: 32em;
                         height: auto;
                          padding: 2em;
                         background: white;

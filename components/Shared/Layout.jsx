@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 import ModalToggleService from "../../services/ModalToggleService";
 import Modal from "./Modal";
 import Login from "../Unauthorized/Login";
-import Signup from "./Signup";
+import Signup from "../Unauthorized/Signup";
 function Layout({ content }) {
     const [modalStatus, setModalStatus] = useState(false)
     const [modalType, toggleModalType] = useState(1)
     useEffect(() => {
         ModalToggleService.getState().subscribe(({ state }) => {
-            console.log(state);
+            if (!state) toggleModalType(1)
             setModalStatus(state)
         })
     }, [])

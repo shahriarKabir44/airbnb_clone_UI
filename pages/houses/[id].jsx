@@ -4,7 +4,7 @@ import Layout from "../../components/Shared/Layout";
 import { useState } from "react";
 
 import ModalToggleService from "../../services/ModalToggleService";
-import Modal from "../../components/Shared/Modal";
+import Globals from "../../Globals";
 function House({ house }) {
     const [stayDuration, setStayDuration] = useState(1)
     const [canShowModal, toggleModalState] = useState(false)
@@ -71,7 +71,7 @@ function House({ house }) {
 }
 export async function getServerSideProps({ query }) {
     const { id } = query
-    var { house } = await fetch(`http://localhost:3000/api/getHouse/${id}`).then(res => res.json())
+    var { house } = await fetch(`${Globals.getHousePath}${id}`).then(res => res.json())
     return {
         props: { house: house }
     }

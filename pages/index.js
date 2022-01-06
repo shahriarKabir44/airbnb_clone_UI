@@ -1,8 +1,16 @@
+import { useEffect, useState } from 'react'
 import House from '../components/house'
-import Layout from '../components/Layout'
-import houses from '../houses'
-import Link from 'next/link'
+import Layout from '../components/Shared/Layout'
+import Globals from '../Globals'
 export default function Home() {
+	const [houses, setHouses] = useState([])
+	useEffect(() => {
+		fetch(Globals.getAllHousesPath)
+			.then(res => res.json())
+			.then(houseList => {
+				setHouses(houseList.houses)
+			})
+	}, [])
 	return (
 		<Layout content={
 			<div>
