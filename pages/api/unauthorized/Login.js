@@ -1,3 +1,5 @@
+
 export default function login(req, res) {
-    res.status(200).send({ houses: houses })
+    console.log(req.body);
+    res.status(200).send({ response: "yo" })
 }
