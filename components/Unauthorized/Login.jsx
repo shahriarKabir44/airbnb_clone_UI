@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Globals from '../../Globals'
+import Globals from '../../pages/Globals'
 function Login({ toggleModalType }) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')

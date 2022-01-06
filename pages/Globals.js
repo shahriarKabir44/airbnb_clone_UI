@@ -4,6 +4,7 @@ class Globals {
    static getAllHousesPath = "/api/general/getAllHouses/"
    static getHousePath = "/api/general/getHouse/"
    static loginPath = '/api/unauthorized/login'
+   static checkAuthorizeization = 'api/unauthorized/isAuthorized'
    static async httpRequest(path, body = null) {
       var data = {
          method: body ? 'POST' : 'GET',
@@ -14,7 +15,8 @@ class Globals {
 
       }
       if (body) data.body = JSON.stringify(body)
-      return await fetch(this.SERVER_URL + path, data).then(res => res.json())
+      var { data } = await fetch(this.SERVER_URL + path, data).then(res => res.json())
+      return data
    }
 }
 

@@ -4,6 +4,7 @@ import ModalToggleService from "../../services/ModalToggleService";
 import Modal from "./Modal";
 import Login from "../Unauthorized/Login";
 import Signup from "../Unauthorized/Signup";
+import Globals from "../../pages/Globals";
 function Layout({ content }) {
     const [modalStatus, setModalStatus] = useState(0)
     const [modalType, toggleModalType] = useState(1)
@@ -11,6 +12,10 @@ function Layout({ content }) {
         ModalToggleService.getState().subscribe(({ state }) => {
             setModalStatus(state)
         })
+        Globals.httpRequest(Globals.checkAuthorizeization)
+            .then(data => {
+                console.log(data);
+            })
     }, [])
     return (
         <div>

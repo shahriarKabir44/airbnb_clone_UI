@@ -6,19 +6,17 @@ export default function verifyAuthToken(handler) {
         var token = authHeader && authHeader.split(' ')[1]
         if (!token) res.send({ data: null })
         else {
-            jwt.verify(token, process.env.jwtSecret, (err, user) => {
-                if (err) {
-                    res.send({
-                        data: {
-                            unauthorized: true
-                        }
-                    })
-                }
-                else {
-                    req.user = user
-                    return handler(req, res)
-                }
-            })
+            try {
+                req.user = (jwt.verify(token, process.env.jwtSecret))
+                return handler(req, res)
+            } catch (error) {
+                res.send({
+                    data: {
+                        unauthorized: true
+                    }
+                })
+            }
+
         }
     }
 
