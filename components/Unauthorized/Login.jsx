@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Globals from '../../pages/Globals'
 import CurrentUserService from '../../pages/services/CurrentUserService'
 import AuthService from '../../pages/services/AuthService'
+import ModalRoggleService from '../../pages/services/ModalToggleService'
 function Login({ toggleModalType }) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -11,12 +12,14 @@ function Login({ toggleModalType }) {
             password: password,
             email: email
         }
-        var payload = await Globals.httpRequest(Globals.registerPath, data)
+        var payload = await Globals.httpRequest(Globals.loginPath, data)
+        console.log(payload);
         if (!payload) localStorage.clear()
         else {
             localStorage.setItem('token', payload.token)
             CurrentUserService.setCurrentUser(payload.user)
-            AuthService.setAuthorizedStat(True)
+            AuthService.setAuthorizedStat(true)
+            ModalRoggleService.setState(0)
         }
     }
     return (

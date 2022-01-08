@@ -16,9 +16,10 @@ import userList from '../mock_db/users'
     }
     static login({ email, password }) {
         var user = this.findOne({ email: email, password: password })
-        if (user) {
+         if (user) {
             var token = jwt.sign(JSON.stringify(user), process.env.jwtSecret)
             var payload = { ...user, password: null }
+            console.log(payload);
             return {
                 token: token,
                 user: payload

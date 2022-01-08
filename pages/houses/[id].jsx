@@ -1,13 +1,52 @@
 import Head from "next/head";
 import DateRangePicker from "../../components/DateRangePicker";
 import Layout from "../../components/Shared/Layout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ModalToggleService from "../services/ModalToggleService";
+import CurrentUserService from "../services/CurrentUserService";
+import AuthService from "../services/AuthService";
+import Globals from "../Globals";
 function House({ house }) {
     const [stayDuration, setStayDuration] = useState(1)
+    const [isAuthorized, setAuthorizedStat] = useState(false)
+    const [currentuser, setCurrentuser] = useState(null)
+    const [startDate, setStartdate] = useState(new Date())
+    const [endDate, setEndDate] = useState(new Date())
+    const [canShowReservation, toggleReservation] = useState(0)
+    const [reservationStatmessage, setReservationStatMessage] = useState('')
+    const [isRoomBooked, setReservationStaus] = useState(false)
+
     var { id, picture, type, town, title, description, guests, price } = house
-    function bookRoom(id) {
-        ModalToggleService.setState(1)
+    useEffect(() => {
+        AuthService.isAuthorized().subscribe(status => {
+            if (status) {
+                CurrentUserService.getCurrentUser().subscribe(user => {
+                    setCurrentuser(user)
+                    setAuthorizedStat(true)
+                })
+            }
+        })
+    }, [isAuthorized])
+    async function bookRoom() {
+        if (!isAuthorized) {
+            ModalToggleService.setState(1)
+            return
+        }
+        let data = {
+            locationId: id,
+            startDate: startDate,
+            enddate: endDate,
+            userid: currentuser.id,
+        }
+        let response = await Globals.httpRequest(Globals.reserveRoomURL)
+        if (!response.success) {
+            toggleReservation(2)
+            setReservationErrorMessage(response.message)
+        }
+        else {
+            toggleReservation(1)
+            setReservationStatMessage("Room reserved successfully!")
+        }
     }
     return (
         <Layout content={<div>
@@ -25,7 +64,7 @@ function House({ house }) {
                     <p>{guests}</p>
                 </article>
                 <aside>
-                    <DateRangePicker setStayDuration={setStayDuration} />
+                    <DateRangePicker setBeginDate={setStartdate} setLastdate={setEndDate} setStayDuration={setStayDuration} />
                     <div>
                         <h2>Price per night</h2>
                         <p>${price}</p>
@@ -33,7 +72,7 @@ function House({ house }) {
                         <p>{stayDuration} Day(s)</p>
                         <h2>Total price for booking</h2>
                         <p>${(stayDuration * price).toFixed(2)}</p>
-                        <button className="reserve" onClick={() => { bookRoom(id) }} > Reserve </button>
+                        <button className="reserve" onClick={() => { bookRoom() }} > Reserve </button>
                     </div>
                 </aside>
             </div>

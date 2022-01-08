@@ -14,7 +14,7 @@ function formatDate(date, formatString, locale) {
     return dateFnsFormat(date, formatString, { locale })
 }
 
-function DateRangePicker({ setStayDuration }) {
+function DateRangePicker({ setStayDuration, setBeginDate, setLastdate }) {
     const [startDate, setStartDate] = useState(new Date())
     const [endDate, setEndDate] = useState(new Date((new Date() * 1) + 24 * 3600 * 1000))
 
@@ -24,8 +24,10 @@ function DateRangePicker({ setStayDuration }) {
      */
     function updateStartDate(date) {
         setStartDate(date)
+        setBeginDate(date)
         if (endDate * 1 < date * 1) {
             setEndDate(date)
+            setLastdate(date)
             setStayDuration(1)
             return
         }
@@ -49,6 +51,7 @@ function DateRangePicker({ setStayDuration }) {
         if (dateDif >= 1) {
             setStayDuration(getStayDuration(startDate, endTime))
             setEndDate(endTime)
+            setLastdate(endTime)
         }
     }
 

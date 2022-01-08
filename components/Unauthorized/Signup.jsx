@@ -1,6 +1,7 @@
 import Globals from '../../pages/Globals'
 import CurrentUserService from '../../pages/services/CurrentUserService'
 import AuthService from '../../pages/services/AuthService'
+import ModalRoggleService from '../../pages/services/ModalToggleService'
 import { useState } from 'react'
 function Signup({ toggleModalType }) {
     const [email, setEmail] = useState('')
@@ -20,6 +21,8 @@ function Signup({ toggleModalType }) {
             localStorage.setItem('token', payload.token)
             CurrentUserService.setCurrentUser(payload.user)
             AuthService.setAuthorizedStat(true)
+            ModalRoggleService.setState(0)
+
         }
     }
     return (

@@ -20,6 +20,7 @@ function Layout({ content }) {
                 if (data['unauthorized']) {
                     AuthService.setAuthorizedStat(false)
                     setAuthorizedStat(false)
+                    CurrentUserService.setCurrentUser(null)
                 }
                 else {
                     AuthService.setAuthorizedStat(true)
