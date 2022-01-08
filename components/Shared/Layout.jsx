@@ -1,26 +1,35 @@
 import Header from "./Header";
 import { useEffect, useState } from "react";
-import ModalToggleService from "../../services/ModalToggleService";
+import ModalToggleService from "../../pages/services/ModalToggleService";
 import Modal from "./Modal";
 import Login from "../Unauthorized/Login";
 import Signup from "../Unauthorized/Signup";
 import Globals from "../../pages/Globals";
+import AuthService from "../../pages/services/AuthService";
 function Layout({ content }) {
     const [modalStatus, setModalStatus] = useState(0)
-    const [modalType, toggleModalType] = useState(1)
+    const [isAuthorized, setAuthorizedStat] = useState(false)
     useEffect(() => {
         ModalToggleService.getState().subscribe(({ state }) => {
             setModalStatus(state)
         })
+
         Globals.httpRequest(Globals.checkAuthorizeization)
             .then(data => {
-                console.log(data);
+                if (data['unauthorized']) {
+                    AuthService.setAuthorizedStat(false)
+                    setAuthorizedStat(false)
+                }
+                else {
+                    AuthService.setAuthorizedStat(true)
+                    setAuthorizedStat(1 == 1)
+                }
             })
     }, [])
     return (
         <div>
             <Header />
-            {modalStatus !== 0 && <Modal toggleModalState={setModalStatus}  >
+            {!isAuthorized && modalStatus !== 0 && <Modal toggleModalState={setModalStatus}  >
                 {modalStatus == 1 && <Login toggleModalType={setModalStatus} />}
                 {modalStatus == 2 && <Signup toggleModalType={setModalStatus} />}
             </Modal>}

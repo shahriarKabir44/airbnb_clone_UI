@@ -1,21 +1,31 @@
 import Link from "next/link";
-import ModalToggleService from "../../services/ModalToggleService";
+import { useState, useEffect } from "react";
+import ModalToggleService from '../../pages/services/ModalToggleService'
+import AuthService from "../../pages/services/AuthService";
 function Header() {
+    const [isAuthorized, setAuthorizedStat] = useState(false)
+    useEffect(() => {
+        AuthService.isAuthorized().subscribe(({ state }) => {
+            setAuthorizedStat(state)
+        })
+    }, [])
     return (
         <div className="nav-container">
             <Link href="/">
-                <img className="nav_item" src="/img/airbnb_logo.png" height='100%' alt="" />
+                <a href="#">
+                    <img className="nav_item" src="/img/airbnb_logo.png" height='100%' alt="" />
+                </a>
             </Link>
             <nav>
 
-                <ul className="nav_ul">
+                {!isAuthorized && <ul className="nav_ul">
                     <li className="nav_item" onClick={(e) => { e.preventDefault(); ModalToggleService.setState(1) }}>
                         <Link href='#'  > Log in </Link>
                     </li>
                     <li className="nav_item" onClick={(e) => { e.preventDefault(); ModalToggleService.setState(2) }}>
                         <Link href='#' > Sign up </Link>
                     </li>
-                </ul>
+                </ul>}
             </nav>
             <style jsx>
                 {

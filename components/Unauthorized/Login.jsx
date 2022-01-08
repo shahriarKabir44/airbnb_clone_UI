@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Globals from '../../pages/Globals'
-import CurrentUserService from '../../services/CurrentUserService'
+import CurrentUserService from '../../pages/services/CurrentUserService'
+import AuthService from '../../pages/services/AuthService'
 function Login({ toggleModalType }) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -15,6 +16,7 @@ function Login({ toggleModalType }) {
         else {
             localStorage.setItem('token', payload.token)
             CurrentUserService.setCurrentUser(payload.user)
+            AuthService.setAuthorizedStat(True)
         }
     }
     return (

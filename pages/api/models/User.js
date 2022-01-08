@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
-import users from './users'
-class User {
+import userList from './users'
+ class User {
     static isAuthorized(token) {
         if (!token) return null
         try {
@@ -12,7 +12,7 @@ class User {
 
     }
     static findOne({ email, password }) {
-        return users.filter(user => user.email == email && user.password == password)[0]
+        return userList.filter(user => user.email == email && user.password == password)[0]
     }
     static login({ email, password }) {
         var user = this.findOne({ email: email, password: password })
@@ -27,14 +27,15 @@ class User {
         else return null
     }
     static register({ email, password }) {
-        if (!users.filter(user => user.email == email).length) {
+        if (!userList.filter(user => user.email == email).length) {
             var newUser = {
                 email: email,
-                password: password
+                password: password,
+                id: userList.length
             }
-            users.push(newUser)
-            var token = jwt.sign(JSON.stringify(user), process.env.jwtSecret)
-            var payload = { ...user, password: null }
+            userList.push(newUser)
+            var token = jwt.sign(JSON.stringify(newUser), process.env.jwtSecret)
+            var payload = { ...newUser, password: null }
             return {
                 token: token,
                 user: payload

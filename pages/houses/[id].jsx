@@ -2,8 +2,7 @@ import Head from "next/head";
 import DateRangePicker from "../../components/DateRangePicker";
 import Layout from "../../components/Shared/Layout";
 import { useState } from "react";
-
-import ModalToggleService from "../../services/ModalToggleService";
+import ModalToggleService from "../services/ModalToggleService";
 function House({ house }) {
     const [stayDuration, setStayDuration] = useState(1)
     var { id, picture, type, town, title, description, guests, price } = house
