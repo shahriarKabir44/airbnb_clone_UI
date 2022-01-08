@@ -6,6 +6,7 @@ import Login from "../Unauthorized/Login";
 import Signup from "../Unauthorized/Signup";
 import Globals from "../../pages/Globals";
 import AuthService from "../../pages/services/AuthService";
+import CurrentUserService from "../../pages/services/CurrentUserService";
 function Layout({ content }) {
     const [modalStatus, setModalStatus] = useState(0)
     const [isAuthorized, setAuthorizedStat] = useState(false)
@@ -22,6 +23,7 @@ function Layout({ content }) {
                 }
                 else {
                     AuthService.setAuthorizedStat(true)
+                    CurrentUserService.setCurrentUser(data.user)
                     setAuthorizedStat(1 == 1)
                 }
             })

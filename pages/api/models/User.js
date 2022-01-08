@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import userList from './users'
+import userList from '../mock_db/users'
  class User {
     static isAuthorized(token) {
         if (!token) return null

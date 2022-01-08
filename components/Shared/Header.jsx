@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import ModalToggleService from '../../pages/services/ModalToggleService'
 import AuthService from "../../pages/services/AuthService";
+import CurrentUserService from "../../pages/services/CurrentUserService";
 function Header() {
     const [isAuthorized, setAuthorizedStat] = useState(false)
     useEffect(() => {
@@ -9,6 +10,13 @@ function Header() {
             setAuthorizedStat(state)
         })
     }, [])
+
+    function logout() {
+        localStorage.clear()
+        AuthService.setAuthorizedStat(false)
+        CurrentUserService.setCurrentUser(null)
+    }
+
     return (
         <div className="nav-container">
             <Link href="/">
@@ -20,10 +28,18 @@ function Header() {
 
                 {!isAuthorized && <ul className="nav_ul">
                     <li className="nav_item" onClick={(e) => { e.preventDefault(); ModalToggleService.setState(1) }}>
-                        <Link href='#'  > Log in </Link>
+                        <Link href='javascript:;'  > Log in </Link>
                     </li>
                     <li className="nav_item" onClick={(e) => { e.preventDefault(); ModalToggleService.setState(2) }}>
-                        <Link href='#' > Sign up </Link>
+                        <Link href='javascript:;' > Sign up </Link>
+                    </li>
+                </ul>}
+                {isAuthorized && <ul className="nav_ul">
+                    <li className="nav_item" >
+                        <Link href='javascript:;'>Bookings </Link>
+                    </li>
+                    <li className="nav_item" onClick={() => { logout() }} >
+                        <Link href='#javascript:;'>Logout </Link>
                     </li>
                 </ul>}
             </nav>

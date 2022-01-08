@@ -1,6 +1,5 @@
-import houses from '../../houses'
-
+import House from '../../models/House'
 export default function getHouse(req, res) {
     var { Id } = (req.query);
-    res.status(200).send({ data: houses.filter(house => house.id == Id)[0] })
+    res.status(200).send({ data: House.findOne(Id) })
 }

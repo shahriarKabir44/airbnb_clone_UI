@@ -1,6 +1,6 @@
 export default [
     {
-        id: 1,
+        id: 0,
         picture: '/img/1.jpg',
         type: 'Entire house',
         town: 'New York',
@@ -11,7 +11,7 @@ export default [
         guests: 4
     },
     {
-        id: 2,
+        id: 1,
         picture: '/img/2.jpg',
         type: 'Entire house',
         town: 'Amsterdam',
