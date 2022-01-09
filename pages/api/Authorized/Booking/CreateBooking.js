@@ -1,5 +1,5 @@
 import Booking from "../../models/Booking"
-export default function login(req, res) {
+export default function CreateBooking(req, res) {
      res.send({data:Booking.createBooking(req.body)})
-
 }
+

@@ -17,6 +17,7 @@ function Layout({ content }) {
 
         Globals.httpRequest(Globals.checkAuthorizeization)
             .then(data => {
+
                 if (data['unauthorized']) {
                     AuthService.setAuthorizedStat(false)
                     setAuthorizedStat(false)
@@ -24,7 +25,8 @@ function Layout({ content }) {
                 }
                 else {
                     AuthService.setAuthorizedStat(true)
-                    CurrentUserService.setCurrentUser(data.user)
+                    console.log(data);
+                    CurrentUserService.setCurrentUser(data)
                     setAuthorizedStat(1 == 1)
                 }
             })

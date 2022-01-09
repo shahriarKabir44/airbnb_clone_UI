@@ -11,17 +11,19 @@ class Booking{
         })
         return res
     }
-    static createBooking(locationId,startDate,enddate,userid ){
-        let errors=""
-        for(let n=0;n<bookings.length;n++){
-            if(bookings[n]==userid){
-                if(bookings[n].locationId==locationId){
-                    errors="House already booked"
-                    return {
-                        success: 0,
-                        message: errors
-                    }
-                }
+    static isReserved({userId, location}){
+        for(let booking of bookings){
+            if(booking.userid==userId && booking.locationId==location && booking.enddate>=(new Date())*1){
+                return true
+            }
+        }
+        return false
+    }
+    static createBooking({locationId,startDate,enddate,userid }){
+        if(this.isReserved({userId:userid,location:locationId})){
+            return {
+                success: 0,
+                message:"Room already booked!"
             }
         }
         let newBooking={

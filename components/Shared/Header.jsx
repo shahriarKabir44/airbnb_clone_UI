@@ -28,18 +28,18 @@ function Header() {
 
                 {!isAuthorized && <ul className="nav_ul">
                     <li className="nav_item" onClick={(e) => { e.preventDefault(); ModalToggleService.setState(1) }}>
-                        <Link href='javascript:;'  > Log in </Link>
+                        <Link href='#'  > Log in </Link>
                     </li>
                     <li className="nav_item" onClick={(e) => { e.preventDefault(); ModalToggleService.setState(2) }}>
-                        <Link href='javascript:;' > Sign up </Link>
+                        <Link href='#' > Sign up </Link>
                     </li>
                 </ul>}
                 {isAuthorized && <ul className="nav_ul">
                     <li className="nav_item" >
-                        <Link href='javascript:;'>Bookings </Link>
+                        <Link href='#'>Bookings </Link>
                     </li>
                     <li className="nav_item" onClick={() => { logout() }} >
-                        <Link href='#javascript:;'>Logout </Link>
+                        <Link href='#'>Logout </Link>
                     </li>
                 </ul>}
             </nav>

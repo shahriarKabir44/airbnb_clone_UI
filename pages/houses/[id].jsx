@@ -15,14 +15,22 @@ function House({ house }) {
     const [canShowReservation, toggleReservation] = useState(0)
     const [reservationStatmessage, setReservationStatMessage] = useState('')
     const [isRoomBooked, setReservationStaus] = useState(false)
+    const [canShowReservationStatModal, toggleReservatonStat] = useState(false)
 
     var { id, picture, type, town, title, description, guests, price } = house
     useEffect(() => {
-        AuthService.isAuthorized().subscribe(status => {
-            if (status) {
-                CurrentUserService.getCurrentUser().subscribe(user => {
-                    setCurrentuser(user)
+        ModalToggleService
+        AuthService.isAuthorized().subscribe(({ state }) => {
+            if (state) {
+                CurrentUserService.getCurrentUser().subscribe(({ state }) => {
+                    setCurrentuser(state)
                     setAuthorizedStat(true)
+                    Globals.httpRequest(Globals.isReservedURL, {
+                        userId: state.id, location: id
+                    })
+                        .then(reservationStatus => {
+                            setReservationStaus(reservationStatus)
+                        })
                 })
             }
         })
@@ -38,10 +46,10 @@ function House({ house }) {
             enddate: endDate,
             userid: currentuser.id,
         }
-        let response = await Globals.httpRequest(Globals.reserveRoomURL)
+        let response = await Globals.httpRequest(Globals.reserveRoomURL, data)
         if (!response.success) {
             toggleReservation(2)
-            setReservationErrorMessage(response.message)
+            setReservationStatMessage(response.message)
         }
         else {
             toggleReservation(1)
