@@ -6,6 +6,7 @@ import ModalToggleService from "../services/ModalToggleService";
 import CurrentUserService from "../services/CurrentUserService";
 import AuthService from "../services/AuthService";
 import Globals from "../Globals";
+import Modal from "../../components/Shared/Modal";
 function House({ house }) {
     const [stayDuration, setStayDuration] = useState(1)
     const [isAuthorized, setAuthorizedStat] = useState(false)
@@ -14,27 +15,38 @@ function House({ house }) {
     const [endDate, setEndDate] = useState(new Date())
     const [canShowReservation, toggleReservation] = useState(0)
     const [reservationStatmessage, setReservationStatMessage] = useState('')
-    const [isRoomBooked, setReservationStaus] = useState(false)
-    const [canShowReservationStatModal, toggleReservatonStat] = useState(false)
+    const [reservationStatus, setReservationStaus] = useState({
+        isBooked: false,
+        data: null
+    })
+    const [canShowReservationStatModal, toggleReservatonStatModalVisibility] = useState(false)
 
     var { id, picture, type, town, title, description, guests, price } = house
     useEffect(() => {
-        ModalToggleService
+
         AuthService.isAuthorized().subscribe(({ state }) => {
             if (state) {
-                CurrentUserService.getCurrentUser().subscribe(({ state }) => {
-                    setCurrentuser(state)
-                    setAuthorizedStat(true)
-                    Globals.httpRequest(Globals.isReservedURL, {
-                        userId: state.id, location: id
-                    })
-                        .then(reservationStatus => {
-                            setReservationStaus(reservationStatus)
+                CurrentUserService.getCurrentUser().subscribe(({ currentUser }) => {
+                    if (currentUser) {
+                        console.log("user", state, currentUser);
+                        setCurrentuser(currentUser)
+                        setAuthorizedStat(true)
+                        Globals.httpRequest(Globals.isReservedURL, {
+                            userId: currentUser.id, location: id
                         })
+                            .then(reservationStatus => {
+                                console.log("reservation", reservationStatus)
+                                setReservationStaus(reservationStatus)
+                            })
+                    }
+
                 })
             }
         })
     }, [isAuthorized])
+    async function cancelReservation() {
+
+    }
     async function bookRoom() {
         if (!isAuthorized) {
             ModalToggleService.setState(1)
@@ -42,23 +54,30 @@ function House({ house }) {
         }
         let data = {
             locationId: id,
-            startDate: startDate,
-            enddate: endDate,
-            userid: currentuser.id,
+            startDate: startDate * 1,
+            enddate: endDate * 1,
+            userId: currentuser.id,
         }
         let response = await Globals.httpRequest(Globals.reserveRoomURL, data)
+        console.log(response);
         if (!response.success) {
             toggleReservation(2)
             setReservationStatMessage(response.message)
+            toggleReservatonStatModalVisibility(true)
         }
         else {
             toggleReservation(1)
             setReservationStatMessage("Room reserved successfully!")
+            toggleReservatonStatModalVisibility(true)
+            setReservationStaus(true)
         }
     }
     return (
         <Layout content={<div>
             <img src={picture} width="100%" alt="House picture" />
+
+
+
 
             <div className="container">
                 <Head>
@@ -84,6 +103,9 @@ function House({ house }) {
                     </div>
                 </aside>
             </div>
+            {canShowReservationStatModal && <Modal toggleModalState={toggleReservatonStatModalVisibility} >
+                {reservationStatmessage}
+            </Modal>}
             <style jsx>{`
             .container{
                 display: grid;

@@ -4,7 +4,7 @@ class Booking{
     static getBookingList(userId){
         let res=[]
         bookings.forEach(booking=>{
-            if(booking.userid==userId){
+            if(booking.userId==userId){
                 booking['place']=House.findOne(booking.locationId)
             }
             res.push(booking)
@@ -13,30 +13,55 @@ class Booking{
     }
     static isReserved({userId, location}){
         for(let booking of bookings){
-            if(booking.userid==userId && booking.locationId==location && booking.enddate>=(new Date())*1){
-                return true
+             if(booking.userId==userId && booking.locationId==location && booking.status){
+                return {
+                    isBooked: true,
+                    data: booking
+                }
             }
         }
-        return false
+        return {
+            isBooked: false,
+            data: null
+        }
     }
-    static createBooking({locationId,startDate,enddate,userid }){
-        if(this.isReserved({userId:userid,location:locationId})){
+    static createBooking({locationId,startDate,enddate,userId }){
+        if(this.isReserved({userId:userId,location:locationId}).isBooked){
             return {
                 success: 0,
                 message:"Room already booked!"
             }
         }
         let newBooking={
-            locationId:     locationId,
-            startDate:      startDate,
-            enddate:       enddate ,
-            userid:     userid,
-             id: bookings.length
+            locationId:locationId,
+            startDate:startDate*1,
+            enddate:enddate*1 ,
+            userId:userId,
+            Id: bookings.length,
+            status:1
         }
         bookings.push(newBooking)
         return {
             success: 1,
             data:newBooking
+        }
+    }
+    static cancelBooking({locationId, userId,bookingId}){
+        if(!this.isReserved({userId:userId,location:locationId})){
+            return {
+                success:0,
+                message: "Room is not reserved!"
+            }
+        }
+        for(let booking in bookings){
+            if(bookings.Id==bookingId){
+                booking.status=0
+                break
+            }
+        }
+        return {
+            success:1,
+            message:"Reservation successfully cancelled!"
         }
     }
 }
