@@ -32,7 +32,7 @@ import userList from '../mock_db/users'
             var newUser = {
                 email: email,
                 password: password,
-                id: userList.length
+                Id: userList.length
             }
             userList.push(newUser)
             var token = jwt.sign(JSON.stringify(newUser), process.env.jwtSecret)

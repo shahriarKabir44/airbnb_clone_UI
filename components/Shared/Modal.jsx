@@ -1,20 +1,31 @@
-import { useState } from "react";
-
-function Modal({ children, toggleModalState }) {
+import { useEffect, useState } from "react";
+import ReservationModalService from "../../pages/services/ReservationModalService"
+function Modal({ children }) {
     const [status, setStatus] = useState(1)
+    const [visibility, setVisibility] = useState(1)
+    useEffect(() => {
+        ReservationModalService.getreservationModalStatus()
+            .subscribe(({ reservationModalStatus }) => {
+                console.log(reservationModalStatus);
+                setStatus(reservationModalStatus)
+                setVisibility(reservationModalStatus)
+            })
+    }, [])
     function toggle() {
-        setStatus(status ^ 1)
+        setStatus(0)
         setTimeout(() => {
+            ReservationModalService.setreservationModalStatus(false)
+            setVisibility(0)
+        }, 200)
+        // toggleModalState(0)
 
-            toggleModalState(0)
-        }, 200);
     }
     return (
-        <div className="nav-container">
+        <div className={`nav-container ${visibility ? "displayBlock" : "displayNone"} `}>
             <div className="modal-background" onClick={() => toggle()}>
 
             </div>
-            <div className={` modal-body  ${status === 1 ? "fall" : "climb"} `} >
+            <div className={` modal-body  ${status ? "fall" : "climb"} `} >
                 {children}
             </div>
             <style jsx>
@@ -58,6 +69,12 @@ function Modal({ children, toggleModalState }) {
                 @keyframes dropDown {
                     from {top: -50%;}
                     to {top: 50%;}
+                  }
+                  .displayNone{
+                      display:none
+                  }
+                  .displayBlock{
+                      display:block
                   }
                 
             `    }
