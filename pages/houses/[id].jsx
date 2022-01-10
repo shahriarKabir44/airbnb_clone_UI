@@ -73,40 +73,42 @@ function House({ house }) {
         }
     }
     return (
-        <Layout content={<div>
-            <img src={picture} width="100%" alt="House picture" />
+        <Layout content={
+            <div>
+                <img src={picture} width="100%" alt="House picture" />
 
 
 
 
-            <div className="container">
-                <Head>
-                    <title> {title} </title>
-                </Head>
-                <article>
-                    <p>
-                        {type} - {town}
-                    </p>
-                    <p>{description}</p>
-                    <p>{guests}</p>
-                </article>
-                <aside>
-                    <DateRangePicker setBeginDate={setStartdate} setLastdate={setEndDate} setStayDuration={setStayDuration} />
-                    <div>
-                        <h2>Price per night</h2>
-                        <p>${price}</p>
-                        <h2>Duration:</h2>
-                        <p>{stayDuration} Day(s)</p>
-                        <h2>Total price for booking</h2>
-                        <p>${(stayDuration * price).toFixed(2)}</p>
-                        <button className="reserve" onClick={() => { bookRoom() }} > Reserve </button>
-                    </div>
-                </aside>
-            </div>
-            {canShowReservationStatModal && <Modal toggleModalState={toggleReservatonStatModalVisibility} >
-                {reservationStatmessage}
-            </Modal>}
-            <style jsx>{`
+                <div className="container">
+
+                    <Head>
+                        <title> {title} </title>
+                    </Head>
+                    <article>
+                        <p>
+                            {type} - {town}
+                        </p>
+                        <p>{description}</p>
+                        <p>{guests}</p>
+                    </article>
+                    <aside>
+                        <DateRangePicker setBeginDate={setStartdate} setLastdate={setEndDate} setStayDuration={setStayDuration} />
+                        <div>
+                            <h2>Price per night</h2>
+                            <p>${price}</p>
+                            <h2>Duration:</h2>
+                            <p>{stayDuration} Day(s)</p>
+                            <h2>Total price for booking</h2>
+                            <p>${(stayDuration * price).toFixed(2)}</p>
+                            <button className="reserve" onClick={() => { bookRoom() }} > Reserve </button>
+                        </div>
+                    </aside>
+                </div>
+                {canShowReservationStatModal && <Modal toggleModalState={toggleReservatonStatModalVisibility} >
+                    {reservationStatmessage}
+                </Modal>}
+                <style jsx>{`
             .container{
                 display: grid;
                 grid-template-columns: 55% 40%;
@@ -130,7 +132,7 @@ function House({ house }) {
             }
             ` }</style>
 
-        </div>} />
+            </div>} />
 
     );
 }
