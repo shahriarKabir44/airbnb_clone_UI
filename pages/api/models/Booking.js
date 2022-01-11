@@ -25,7 +25,7 @@ class Booking{
             data: null
         }
     }
-    static createBooking({locationId,startDate,enddate,userId }){
+    static createBooking({locationId,startDate,endDate,userId,cost }){
         if(this.isReserved({userId:userId,location:locationId}).isBooked){
             return {
                 success: 0,
@@ -35,10 +35,11 @@ class Booking{
         let newBooking={
             locationId:locationId,
             startDate:startDate*1,
-            enddate:enddate*1 ,
+            endDate:endDate*1 ,
             userId:userId,
             Id: bookings.length,
-            status:1
+            status:1,
+            cost:cost
         }
         bookings.push(newBooking)
         return {

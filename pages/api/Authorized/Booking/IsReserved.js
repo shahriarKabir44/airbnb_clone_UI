@@ -1,5 +1,7 @@
 import Booking from "../../models/Booking"
-export default function IsReserved(req, res) {
+import verifyAuthToken from '../../unauthorized/jwtHandler'
+function IsReserved(req, res) {
      res.send({data:Booking.isReserved(req.body)})
 }
 
+export default verifyAuthToken(IsReserved)
