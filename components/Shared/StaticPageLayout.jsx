@@ -43,7 +43,7 @@ function StaticPageLayout({ content }) {
     return (
         <div>
             <Header />
-            {!isAuthorized && modalStatus !== 0 && <Modal toggleModalState={setModalStatus}  >
+            {!isAuthorized && <Modal modalStatus={modalStatus} setModalStatus={setModalStatus}  >
                 {modalStatus == 1 && <Login toggleModalType={setModalStatus} />}
                 {modalStatus == 2 && <Signup toggleModalType={setModalStatus} />}
             </Modal>}
@@ -55,7 +55,7 @@ function StaticPageLayout({ content }) {
                 <div className="container">
                     {content}
                     <aside>
-                        {currentHouse && <Reservation house={currentHouse} user={currentUser} />}
+                        {currentHouse && <Reservation house={currentHouse} />}
                     </aside>
                 </div>
 

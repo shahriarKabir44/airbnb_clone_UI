@@ -3,10 +3,12 @@ import DateRangePicker from '../DateRangePicker';
 import { useState, useEffect } from 'react';
 import Globals from '../../pages/Globals';
 import Modal from './Modal'
-import ReservationModalService from '../../pages/services/ReservationModalService';
+import CurrentUserService from '../../pages/services/CurrentUserService';
+import ModalToggleService from '../../pages/services/ModalToggleService';
 
 
-function Reservation({ house, user }) {
+
+function Reservation({ house }) {
     const [stayDuration, setStayDuration] = useState(1)
     const [startDate, setStartdate] = useState(new Date())
     const [endDate, setEndDate] = useState(new Date())
@@ -16,23 +18,27 @@ function Reservation({ house, user }) {
         isBooked: false,
         data: null
     })
+    const [user, setCureentUser] = useState(null)
 
+    const [canShowReservationModal, setReservationModalVisibility] = useState(0)
 
     const [canShowReservationStatModal, toggleReservatonStatModalVisibility] = useState(false)
     useEffect(() => {
-        ReservationModalService.setreservationModalStatus(false)
-
-        if (user) {
-            Globals.httpRequest(Globals.isReservedURL, {
-                userId: user.Id, location: house.Id
-            })
-                .then(reservationStatus => {
-                    setReservationStaus(reservationStatus)
-                    toggleReservationButton(!reservationStatus.isBooked)
+        CurrentUserService.getCurrentUser().subscribe(({ currentUser }) => {
+            setCureentUser(currentUser)
+            if (currentUser) {
+                Globals.httpRequest(Globals.isReservedURL, {
+                    userId: currentUser.Id, location: house.Id
                 })
-        }
+                    .then(reservationStatus => {
+                        setReservationStaus(reservationStatus)
+                        toggleReservationButton(!reservationStatus.isBooked)
+                    })
+            }
+        })
 
-    }, [user])
+
+    }, [])
     async function bookRoom() {
         if (!user) {
             ModalToggleService.setState(1)
@@ -45,26 +51,25 @@ function Reservation({ house, user }) {
             userId: user.Id,
         }
         let response = await Globals.httpRequest(Globals.reserveRoomURL, data)
-        console.log(response);
         if (!response.success) {
             toggleReservationButton(true)
             setReservationStatMessage(response.message)
-            ReservationModalService.setreservationModalStatus(true)
+            toggleReservatonStatModalVisibility(1)
         }
         else {
 
             setReservationStatMessage("Room reserved successfully!")
-            ReservationModalService.setreservationModalStatus(true)
             setReservationStaus(response.data)
+            toggleReservatonStatModalVisibility(1)
             toggleReservationButton(false)
 
         }
     }
     return (
         <div>
-            <Modal >
+            {user && <Modal setModalStatus={setReservationModalVisibility} modalStatus={canShowReservationStatModal}>
                 <h2> {reservationStatmessage} </h2>
-            </Modal>
+            </Modal>}
             <DateRangePicker setBeginDate={setStartdate} setLastdate={setEndDate} setStayDuration={setStayDuration} />
             <div>
                 <h2>Price per night</h2>

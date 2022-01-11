@@ -1,20 +1,17 @@
 import { useEffect, useState } from "react";
-import ReservationModalService from "../../pages/services/ReservationModalService"
-function Modal({ children }) {
+
+function Modal({ children, setModalStatus, modalStatus }) {
     const [status, setStatus] = useState(1)
     const [visibility, setVisibility] = useState(1)
     useEffect(() => {
-        ReservationModalService.getreservationModalStatus()
-            .subscribe(({ reservationModalStatus }) => {
-                console.log(reservationModalStatus);
-                setStatus(reservationModalStatus)
-                setVisibility(reservationModalStatus)
-            })
-    }, [])
+        console.log(modalStatus);
+        setStatus(modalStatus != 0)
+        setVisibility(modalStatus != 0)
+    }, [modalStatus])
     function toggle() {
         setStatus(0)
         setTimeout(() => {
-            ReservationModalService.setreservationModalStatus(false)
+            setModalStatus(false)
             setVisibility(0)
         }, 200)
         // toggleModalState(0)

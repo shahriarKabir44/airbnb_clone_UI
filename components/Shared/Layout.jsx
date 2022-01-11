@@ -12,6 +12,7 @@ function Layout({ content }) {
     const [isAuthorized, setAuthorizedStat] = useState(false)
     useEffect(() => {
         ModalToggleService.getState().subscribe(({ state }) => {
+            console.log(state);
             setModalStatus(state)
         })
 
@@ -34,7 +35,7 @@ function Layout({ content }) {
     return (
         <div>
             <Header />
-            {!isAuthorized && modalStatus !== 0 && <Modal toggleModalState={setModalStatus}  >
+            {!isAuthorized && <Modal modalStatus={modalStatus} setModalStatus={setModalStatus}  >
                 {modalStatus == 1 && <Login toggleModalType={setModalStatus} />}
                 {modalStatus == 2 && <Signup toggleModalType={setModalStatus} />}
             </Modal>}
@@ -49,7 +50,7 @@ function Layout({ content }) {
                     box-sizing: border-box;
                 }`}
             </style>
-        </div>
+        </div >
     );
 }
 
