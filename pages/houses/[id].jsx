@@ -18,13 +18,37 @@ function House({ house }) {
                         <Head>
                             <title> {title} </title>
                         </Head>
-                        <p>
-                            {type} - {town}
-                        </p>
-                        <p>{description}</p>
-                        <p>{guests}</p>
+                        <span>
+                            <h2 className="inlineBlock">Price per night:</h2>
+                            <h1 className="inline">${price}</h1>
+                        </span> <br />
+                        <span>
+                            <h3 className="inlineBlock"> House type: </h3>
+                            <p className="inline"> {type}</p>
+
+                        </span> <br />
+                        <span>
+                            <h3 className="inlineBlock">location:</h3>
+                            <p className="inline">{town}</p>
+                        </span><br />
+                        <span>
+                            <span className="inlineBlock" > <h4>Description: </h4> </span>
+                            <p className="inline">{description}</p>
+                        </span>
+
                     </article>
                 </div>
+                <style jsx>
+                    {`
+                        .inlineBlock{
+                            display: inline-block;
+                            padding-right: 1rem;
+                        }
+                         .inline{
+                             display: inline
+                         }
+                    `}
+                </style>
             </div>} />
 
     );

@@ -72,7 +72,9 @@ function StaticPageLayout({ content }) {
                 .container{
                     display: grid;
                     grid-template-columns: 55% 40%;
-                    grid-gap: 5%
+                    grid-gap: 5%;
+                    height: auto;
+                    align-items: flex-start;
                 }
                 aside{
                     border: 1px solid;
