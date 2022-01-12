@@ -49,7 +49,7 @@ function StaticPageLayout({ content }) {
             </Modal>}
             <main>
                 <div>
-                    {currentHouse && <img src={currentHouse.picture} width="100%" alt="House picture" />}
+                    {currentHouse && <img src={currentHouse.picture} style={{ width: "100%" }} alt="House picture" />}
                 </div>
 
                 <div className="container">

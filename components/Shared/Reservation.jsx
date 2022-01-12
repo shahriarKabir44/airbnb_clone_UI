@@ -18,6 +18,9 @@ function Reservation({ house }) {
         data: null
     })
     const [user, setCureentUser] = useState(null)
+    const [canShowConfirmationModal, setConfirmationModalVisibility] = useState(false)
+    const [confirmationModalType, setConfirmationModalType] = useState(0)
+
 
     const [canShowReservationModal, setReservationModalVisibility] = useState(0)
 
@@ -40,11 +43,10 @@ function Reservation({ house }) {
     function getStayDuration(startDay, endDay) {
         return Math.floor((endDay * 1 - startDay * 1) / (24 * 3600 * 1000)) + 1
     }
-    async function bookRoom() {
-        if (!user) {
-            ModalToggleService.setState(1)
-            return
-        }
+    function cancel() {
+
+    }
+    async function confirmReservation() {
         let data = {
             locationId: house.Id,
             startDate: startDate * 1,
@@ -66,14 +68,51 @@ function Reservation({ house }) {
 
             setReservationStatMessage("Room reserved successfully!")
             toggleReservatonStatModalVisibility(1)
-
         }
+    }
+    function bookRoom() {
+        if (!user) {
+            ModalToggleService.setState(1)
+            return
+        }
+        setConfirmationModalType(1)
+        setConfirmationModalVisibility(true)
     }
     return (
         <div>
             {user && <Modal setModalStatus={setReservationModalVisibility} modalStatus={canShowReservationStatModal}>
                 <h2> {reservationStatmessage} </h2>
             </Modal>}
+
+            {user && <Modal setModalStatus={setConfirmationModalVisibility} modalStatus={canShowConfirmationModal}>
+                {confirmationModalType == 1 && <div style={{ textAlign: "center" }}>
+                    <div className="cardBody">
+                        <h1> Are you sure? </h1>
+                        <div>
+                            <h4 className='inlineBlock' > Start Date </h4>
+                            <p className='inline'> {new Date(1 * startDate).toDateString()} </p>
+                        </div>
+                        <div>
+                            <h4 className='inlineBlock' > End Date </h4>
+                            <p className='inline'> {new Date(1 * endDate).toDateString()} </p>
+                        </div>
+                        <div>
+                            <h4 className='inlineBlock' > Duration: </h4>
+                            <p className='inline'> {getStayDuration(1 * startDate, 1 * endDate)} Day(s)</p>
+                        </div>
+                        <div>
+                            <h4 className='inlineBlock' > Cost: </h4>
+                            <p className='inline'> ${stayDuration * house.price} Days</p>
+                        </div>
+                    </div>
+                    <div className="buttons">
+                        <button className="confirm confirmationbtn" onClick={() => { confirmReservation() }} >Proceed</button>
+                        <button className="cancel confirmationbtn" onClick={() => { setConfirmationModalVisibility(false) }} >Cancel</button>
+                    </div>
+
+                </div>}
+            </Modal>}
+
             {!reservationStatus.isBooked && <div>
 
                 <DateRangePicker setBeginDate={setStartdate} setLastdate={setEndDate} setStayDuration={setStayDuration} />
@@ -118,6 +157,19 @@ function Reservation({ house }) {
                 border-radius: 5px;
                 padding: 0.7em;
                 font-size: 15px;
+            }
+            .cardBody{
+                 padding: 0.5em;
+             }
+            .buttons{
+                justify-content: space-between;
+                display: flex;
+            }
+            .confirm{
+                background: rgb(58 159 33)
+            }
+            .cancel{
+                background: rgb(239 19 19)
             }
             `} </style>
         </div>

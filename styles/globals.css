@@ -56,3 +56,13 @@ u {
 .inline {
   display: inline
 }
+
+.confirmationbtn {
+  color: white;
+  width: 28%;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  padding: 0.7em;
+  font-size: 15px;
+}

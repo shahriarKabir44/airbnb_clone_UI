@@ -1,18 +1,16 @@
 import { useEffect, useState } from "react";
 
 function Modal({ children, setModalStatus, modalStatus }) {
-    const [status, setStatus] = useState(1)
-    const [visibility, setVisibility] = useState(1)
+    const [status, setStatus] = useState(0)
+    const [visibility, setVisibility] = useState(0)
     useEffect(() => {
-        console.log(modalStatus);
-        setStatus(modalStatus != 0)
-        setVisibility(modalStatus != 0)
+        if (modalStatus != status) toggle()
     }, [modalStatus])
     function toggle() {
-        setStatus(0)
+        setStatus(modalStatus)
         setTimeout(() => {
-            setModalStatus(false)
-            setVisibility(0)
+            setModalStatus(modalStatus)
+            setVisibility(modalStatus)
         }, 200)
         // toggleModalState(0)
 
