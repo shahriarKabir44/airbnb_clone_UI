@@ -8,6 +8,9 @@ class Globals {
    static checkAuthorizeization = 'api/unauthorized/isAuthorized'
    static reserveRoomURL='api/Authorized/Booking/CreateBooking'
    static isReservedURL='api/Authorized/Booking/IsReserved'
+   static cancelReservationURL='api/Authorized/Booking/CancelReservation'
+
+
    static async httpRequest(path, body = null) {
       var data = {
          method: body ? 'POST' : 'GET',

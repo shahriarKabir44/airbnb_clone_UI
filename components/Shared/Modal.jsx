@@ -4,20 +4,20 @@ function Modal({ children, setModalStatus, modalStatus }) {
     const [status, setStatus] = useState(0)
     const [visibility, setVisibility] = useState(0)
     useEffect(() => {
-        if (modalStatus != status) toggle()
+        if (modalStatus != status) toggle(modalStatus)
     }, [modalStatus])
-    function toggle() {
-        setStatus(modalStatus)
+    function toggle(type) {
+        setStatus(type)
         setTimeout(() => {
-            setModalStatus(modalStatus)
-            setVisibility(modalStatus)
+            setModalStatus(type)
+            setVisibility(type)
         }, 200)
         // toggleModalState(0)
 
     }
     return (
         <div className={`nav-container ${visibility ? "displayBlock" : "displayNone"} `}>
-            <div className="modal-background" onClick={() => toggle()}>
+            <div className="modal-background" onClick={() => toggle(0)}>
 
             </div>
             <div className={` modal-body  ${status ? "fall" : "climb"} `} >

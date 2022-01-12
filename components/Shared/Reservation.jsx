@@ -54,6 +54,7 @@ function Reservation({ house }) {
             userId: user.Id,
             cost: stayDuration * house.price
         }
+        setConfirmationModalVisibility(false)
         let response = await Globals.httpRequest(Globals.reserveRoomURL, data)
         setReservationStaus({
             isBooked: response.success,
@@ -65,7 +66,6 @@ function Reservation({ house }) {
             toggleReservatonStatModalVisibility(1)
         }
         else {
-
             setReservationStatMessage("Room reserved successfully!")
             toggleReservatonStatModalVisibility(1)
         }
@@ -78,9 +78,36 @@ function Reservation({ house }) {
         setConfirmationModalType(1)
         setConfirmationModalVisibility(true)
     }
+
+    function cancelReservation() {
+        if (!user) {
+            ModalToggleService.setState(1)
+            return
+        }
+        setConfirmationModalType(2)
+        setConfirmationModalVisibility(true)
+    }
+    async function confirmCancellation() {
+        setConfirmationModalVisibility(false)
+        let response = await Globals.httpRequest(Globals.cancelReservationURL, reservationStatus.data)
+        if (!response.success) {
+            setReservationStatMessage(response.message)
+            toggleReservatonStatModalVisibility(1)
+        }
+        else {
+            setReservationStaus({
+                isBooked: false,
+                data: null
+            })
+            setReservationStatMessage("Reservation cancelled successfully!")
+            toggleReservatonStatModalVisibility(1)
+        }
+    }
+
+
     return (
         <div>
-            {user && <Modal setModalStatus={setReservationModalVisibility} modalStatus={canShowReservationStatModal}>
+            {user && <Modal setModalStatus={toggleReservatonStatModalVisibility} modalStatus={canShowReservationStatModal}>
                 <h2> {reservationStatmessage} </h2>
             </Modal>}
 
@@ -111,6 +138,36 @@ function Reservation({ house }) {
                     </div>
 
                 </div>}
+
+                {reservationStatus.isBooked && confirmationModalType == 2 && <div style={{ textAlign: "center" }}>
+                    <div className="cardBody">
+                        <h1> Are you sure? </h1>
+                        <h2>Your reservation information</h2>
+                        <div>
+                            <h4 className='inlineBlock' > Start Date </h4>
+                            <p className='inline'> {new Date(reservationStatus.data.startDate).toDateString()} </p>
+                        </div>
+                        <div>
+                            <h4 className='inlineBlock' > End Date </h4>
+                            <p className='inline'> {new Date(reservationStatus.data.endDate).toDateString()} </p>
+                        </div>
+                        <div>
+                            <h4 className='inlineBlock' > Duration: </h4>
+                            <p className='inline'> {getStayDuration(reservationStatus.data.startDate, reservationStatus.data.endDate)} Day(s)</p>
+                        </div>
+                        <div>
+                            <h4 className='inlineBlock' > Cost: </h4>
+                            <p className='inline'> ${reservationStatus.data.cost} Days</p>
+                        </div>
+                    </div>
+                    <div className="buttons">
+                        <button className="confirm confirmationbtn" onClick={() => { confirmCancellation() }} >Proceed</button>
+                        <button className="cancel confirmationbtn" onClick={() => { setConfirmationModalVisibility(false) }} >Cancel</button>
+                    </div>
+
+                </div>}
+
+
             </Modal>}
 
             {!reservationStatus.isBooked && <div>
@@ -144,7 +201,7 @@ function Reservation({ house }) {
                     <h4 className='inlineBlock' > Cost: </h4>
                     <p className='inline'> ${reservationStatus.data.cost} Days</p>
                 </div>
-                <button className="reserve" onClick={() => { cancel() }} > Cancel reservation </button>
+                <button className="reserve" onClick={() => { cancelReservation() }} > Cancel reservation </button>
 
             </div>}
             <style jsx> {`
