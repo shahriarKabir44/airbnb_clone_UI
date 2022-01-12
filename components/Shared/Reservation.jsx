@@ -31,7 +31,7 @@ function Reservation({ house }) {
             if (currentUser) {
                 Globals.httpRequest(Globals.isReservedURL, {
                     userId: currentUser.Id, location: house.Id
-                })
+                }, false)
                     .then(reservationStatus => {
                         setReservationStaus(reservationStatus)
                     })
@@ -43,9 +43,7 @@ function Reservation({ house }) {
     function getStayDuration(startDay, endDay) {
         return Math.floor((endDay * 1 - startDay * 1) / (24 * 3600 * 1000)) + 1
     }
-    function cancel() {
 
-    }
     async function confirmReservation() {
         let data = {
             locationId: house.Id,
@@ -55,7 +53,7 @@ function Reservation({ house }) {
             cost: stayDuration * house.price
         }
         setConfirmationModalVisibility(false)
-        let response = await Globals.httpRequest(Globals.reserveRoomURL, data)
+        let response = await Globals.httpRequest(Globals.reserveRoomURL, data, true)
         setReservationStaus({
             isBooked: response.success,
             data: response.data
@@ -89,7 +87,7 @@ function Reservation({ house }) {
     }
     async function confirmCancellation() {
         setConfirmationModalVisibility(false)
-        let response = await Globals.httpRequest(Globals.cancelReservationURL, reservationStatus.data)
+        let response = await Globals.httpRequest(Globals.cancelReservationURL, reservationStatus.data, true)
         if (!response.success) {
             setReservationStatMessage(response.message)
             toggleReservatonStatModalVisibility(1)

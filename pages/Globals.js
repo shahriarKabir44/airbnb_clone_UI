@@ -1,3 +1,5 @@
+import CurrentUserService from "./services/CurrentUserService"
+
 class Globals {
 
    static SERVER_URL = "http://localhost:3000/"
@@ -11,7 +13,12 @@ class Globals {
    static cancelReservationURL='api/Authorized/Booking/CancelReservation'
 
 
-   static async httpRequest(path, body = null) {
+   static async httpRequest(path, body = null, isAuthorizationNeeded=false) {
+      if(isAuthorizationNeeded && !localStorage.getItem('token')){
+         CurrentUserService.setCurrentUser(null)
+         AuthService.setAuthorizedStat(false)
+         return {data: null}
+      }
       var data = {
          method: body ? 'POST' : 'GET',
          headers: {
