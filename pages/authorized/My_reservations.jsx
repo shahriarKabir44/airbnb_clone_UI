@@ -33,7 +33,7 @@ function My_reservations(props) {
             {!currentUser && <StickyModal />}
             {currentUser && reservationList && <div>
 
-                <div className="header">
+                <div className="header" style={{ textAlign: "center" }}>
                     <h2>My reservations</h2>
                 </div>
                 <div className="container">
