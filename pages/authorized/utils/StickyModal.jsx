@@ -12,13 +12,16 @@ function StickyModal(props) {
                     <h2>You must log in to access this page</h2>
                 </div>
                 <div className="buttons">
-                    <button>
+                    <button className="confirmationbtn" style={{ background: "rgb(27, 195, 195)" }}>
                         <Link href={"/"} as={"/"}> Home </Link>
                     </button>
                 </div>
             </div>
             <style jsx>
                 {`
+                    .buttons{
+                        text-align: center;
+                    }
                     .modal-background{
                         position: fixed;
                         top: 0;

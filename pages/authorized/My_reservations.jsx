@@ -4,9 +4,10 @@ import CurrentUserService from '../services/CurrentUserService';
 import AuthService from '../services/AuthService'
 import Layout from '../../components/Shared/Layout'
 import StickyModal from './utils/StickyModal'
+import ReservationList from './utils/ReservationList';
 function My_reservations(props) {
     const [currentUser, setCurrentuser] = useState(null)
-    const [reservationList, setReservationList] = useState([])
+    const [reservationList, setReservationList] = useState(null)
     useEffect(() => {
         Globals.httpRequest(Globals.checkAuthorizeization)
             .then(data => {
@@ -19,19 +20,25 @@ function My_reservations(props) {
                     CurrentUserService.setCurrentUser(data)
                     AuthService.setAuthorizedStat(true)
                     setCurrentuser(data)
-
+                    Globals.httpRequest(Globals.getReservationList, { userId: data.Id })
+                        .then(data => {
+                            setReservationList(data)
+                            console.log(data);
+                        })
                 }
             })
-    })
+    }, [])
     return (
         <Layout content={<div>
             {!currentUser && <StickyModal />}
-            {currentUser && <div>
+            {currentUser && reservationList && <div>
 
                 <div className="header">
                     <h2>My reservations</h2>
                 </div>
-
+                <div className="container">
+                    <ReservationList reservationList={reservationList} />
+                </div>
             </div>}
         </div>
         } />

@@ -36,7 +36,7 @@ function Header() {
                 </ul>}
                 {isAuthorized && <ul className="nav_ul">
                     <li className="nav_item" >
-                        <Link href='/authorized/My_reservations' as='/my-reservations'>Bookings </Link>
+                        <Link href='/authorized/My_reservations' as='/authorized/My_reservations'>Bookings </Link>
                     </li>
                     <li className="nav_item" onClick={() => { logout() }} >
                         <Link href='#'>Logout </Link>

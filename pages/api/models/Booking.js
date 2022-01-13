@@ -1,18 +1,34 @@
-import bookings from '../mock_db/bookings'
 import House from './House'
 class Booking{
-    static getBookingList(userId){
+    static bookings=[{
+        locationId:0,
+            startDate:(new Date())*1,
+            endDate:(new Date())*1+24*3600*3 ,
+            userId:0,
+            Id: 0,
+            status:1,
+            cost:3000
+    },{
+        locationId:1,
+            startDate:(new Date())*1,
+            endDate:(new Date())*1+24*3600*3 ,
+            userId:0,
+            Id: 0,
+            status:1,
+            cost:3000
+    }]
+    static getBookingList({userId}){
         let res=[]
-        bookings.forEach(booking=>{
+        this.bookings.forEach(booking=>{
             if(booking.userId==userId){
-                booking['place']=House.findOne(booking.locationId)
+                booking['Place']=House.findOne(booking.locationId)
             }
             res.push(booking)
-        })
-        return res
+         })
+         return res
     }
     static isReserved({userId, location}){
-        for(let booking of bookings){
+        for(let booking of this.bookings){
              if(booking.userId==userId && booking.locationId==location && booking.status){
                 return {
                     isBooked: true,
@@ -37,12 +53,12 @@ class Booking{
             startDate:startDate*1,
             endDate:endDate*1 ,
             userId:userId,
-            Id: bookings.length,
+            Id: this.bookings.length,
             status:1,
             cost:cost
         }
-        bookings.push(newBooking)
-        return {
+        this.bookings.push(newBooking)
+         return {
             success: 1,
             data:newBooking
         }
@@ -54,8 +70,8 @@ class Booking{
                 message: "Room is not reserved!"
             }
         }
-        for(let booking in bookings){
-            if(bookings.Id==bookingId){
+        for(let booking in this.bookings){
+            if(booking.Id==bookingId){
                 booking.status=0
                 break
             }

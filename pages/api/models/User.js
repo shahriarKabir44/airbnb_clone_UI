@@ -1,6 +1,14 @@
 import jwt from 'jsonwebtoken'
-import userList from '../mock_db/users'
  class User {
+     static users= [
+        {
+            name: "abcd",
+            email: "p@p",
+            password: "abcd",
+            Id:0
+    
+        }
+    ]
     static isAuthorized(token) {
         if (!token) return null
         try {
@@ -12,7 +20,7 @@ import userList from '../mock_db/users'
 
     }
     static findOne({ email, password }) {
-        return userList.filter(user => user.email == email && user.password == password)[0]
+        return this.this.this.userList.filter(user => user.email == email && user.password == password)[0]
     }
     static login({ email, password }) {
         var user = this.findOne({ email: email, password: password })
@@ -28,13 +36,13 @@ import userList from '../mock_db/users'
         else return null
     }
     static register({ email, password }) {
-        if (!userList.filter(user => user.email == email).length) {
+        if (!this.userList.filter(user => user.email == email).length) {
             var newUser = {
                 email: email,
                 password: password,
-                Id: userList.length
+                Id: this.userList.length
             }
-            userList.push(newUser)
+            this.this.userList.push(newUser)
             var token = jwt.sign(JSON.stringify(newUser), process.env.jwtSecret)
             var payload = { ...newUser, password: null }
             return {
