@@ -4,8 +4,10 @@ import StickyModal from '../../../components/Shared/StickyModal'
 import Layout from '../../../components/Shared/Layout'
 import AuthService from '../../services/AuthService';
 import Globals from '../../Globals';
+import ConfirmationModal from './utils/ConfirmationModal';
 function Host(props) {
     const [currentUser, setCurrentuser] = useState(null)
+    const [canShowConfirmationModal, setConfirmationModalVisibility] = useState(0)
     const [hostingInfo, setHostingInfo] = useState({
         picture: "",
         type: "Entire house",
@@ -35,42 +37,64 @@ function Host(props) {
         <div>
             <Layout content={
                 <div>
+
                     {!currentUser && <StickyModal />}
                     {currentUser && <div className="hostingRoot">
+
+                        <ConfirmationModal modalStatus={canShowConfirmationModal} setModalStatus={setConfirmationModalVisibility}
+                            onCancel={() => {
+                                setConfirmationModalVisibility(0)
+                            }}
+                            onConfirm={() => {
+
+                            }}
+                        >
+                            <h1>Are you sure?</h1>
+
+                        </ConfirmationModal>
+
                         <div className="hostingForm">
                             <div className="form-style-10">
                                 <h1>Host you house!<span>Fill up the form and host your house on AirBNB!</span></h1>
-                                <form>
+                                <form onSubmit={(e) => {
+                                    e.preventDefault()
+                                    setConfirmationModalVisibility(1)
+                                }} >
                                     <div className="section"><span>1</span>Location</div>
                                     <div className="inner-wrap">
-                                        <label>Town name <textarea onChange={e => {
+                                        <label>Town name <textarea required onChange={e => {
                                             setHostingInfo({ ...hostingInfo, town: e.target.value })
                                         }} name="field2"></textarea></label>
                                     </div>
 
                                     <div className="section"><span>2</span>Title & Description</div>
                                     <div className="inner-wrap">
-                                        <label>Home title <input onChange={e => {
+                                        <label>Home title <input required onChange={e => {
                                             setHostingInfo({ ...hostingInfo, title: e.target.value })
-                                        }} type="email" name="field3" /></label>
-                                        <label>Home description <textarea onChange={e => {
+                                        }} type="text" name="field3" /></label>
+                                        <label>Home description <textarea required onChange={e => {
                                             setHostingInfo({ ...hostingInfo, description: e.target.value })
                                         }} name="field4"></textarea></label>
                                     </div>
 
                                     <div className="section"><span>3</span>Pricing:</div>
                                     <div className="inner-wrap">
-                                        <label>Price per day <input onChange={e => {
+                                        <label>Price per day <input required onChange={e => {
                                             setHostingInfo({ ...hostingInfo, price: e.target.value })
                                         }} type="number" name="field6" /></label>
                                     </div>
                                     <div className="section"><span>3</span>Photo:</div>
                                     <div className="inner-wrap">
-                                        <label>Add a nice photo of your house!
-                                            <input onChange={e => {
+                                        <label style={{ display: "flex", justifyContent: "space-between" }}><p>Add a nice photo of your house!</p>
+                                            <input required onChange={e => {
+                                                setHousePhoto(e.target.files[0])
                                                 setHostingInfo({ ...hostingInfo, picture: URL.createObjectURL(e.target.files[0]) })
                                             }} type="file" name="field6" />
                                         </label>
+                                        {hostingInfo.picture && <div>
+                                            <p>Preview</p>
+                                            <img style={{ width: "100%" }} src={hostingInfo.picture} alt="" />
+                                        </div>}
                                     </div>
                                     <div className="button-section">
                                         <input type="submit" name="Sign Up" />
@@ -80,12 +104,12 @@ function Host(props) {
                                     </div>
                                 </form>
                             </div>
-                            
+
                         </div>
                         <style jsx="true">
                             {` 
                           .form-style-10{
-                            width:450px;
+                            width:50vw;
                             padding:30px;
                             margin:40px auto;
                             background: #FFF;
