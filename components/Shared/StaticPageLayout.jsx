@@ -15,7 +15,6 @@ function StaticPageLayout({ content }) {
     const [modalStatus, setModalStatus] = useState(0)
     const [isAuthorized, setAuthorizedStat] = useState(false)
     const [currentHouse, setCurrentHouse] = useState(null)
-    const [currentUser, setCureentUser] = useState(null)
     useEffect(() => {
         ModalToggleService.getState().subscribe(({ state }) => {
             setModalStatus(state)
@@ -24,21 +23,11 @@ function StaticPageLayout({ content }) {
             setCurrentHouse(currentHouse)
         })
 
-        Globals.httpRequest(Globals.checkAuthorizeization)
-            .then(data => {
+        AuthService.isAuthorized().subscribe(({ state }) => {
+            setAuthorizedStat(state)
+        })
 
-                if (data['unauthorized']) {
-                    AuthService.setAuthorizedStat(false)
-                    setAuthorizedStat(false)
-                    CurrentUserService.setCurrentUser(null)
-                }
-                else {
-                    AuthService.setAuthorizedStat(true)
-                    CurrentUserService.setCurrentUser(data)
-                    setCureentUser(data)
-                    setAuthorizedStat(1 == 1)
-                }
-            })
+
     }, [currentHouse])
     return (
         <div>

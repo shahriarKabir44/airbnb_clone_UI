@@ -3,12 +3,25 @@ import { useState, useEffect } from "react";
 import ModalToggleService from '../../pages/services/ModalToggleService'
 import AuthService from "../../pages/services/AuthService";
 import CurrentUserService from "../../pages/services/CurrentUserService";
+import Globals from "../../pages/Globals";
 function Header() {
     const [isAuthorized, setAuthorizedStat] = useState(false)
     useEffect(() => {
-        AuthService.isAuthorized().subscribe(({ state }) => {
-            setAuthorizedStat(state)
-        })
+
+        Globals.httpRequest(Globals.checkAuthorizeization)
+            .then(data => {
+
+                if (data['unauthorized']) {
+                    AuthService.setAuthorizedStat(false)
+                    setAuthorizedStat(false)
+                    CurrentUserService.setCurrentUser(null)
+                }
+                else {
+                    AuthService.setAuthorizedStat(true)
+                    CurrentUserService.setCurrentUser(data)
+                    setAuthorizedStat(1 == 1)
+                }
+            })
     }, [])
 
     function logout() {

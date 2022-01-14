@@ -15,21 +15,10 @@ function Layout({ content }) {
             console.log(state);
             setModalStatus(state)
         })
+        AuthService.isAuthorized().subscribe(({ state }) => {
+            setAuthorizedStat(state)
+        })
 
-        Globals.httpRequest(Globals.checkAuthorizeization)
-            .then(data => {
-
-                if (data['unauthorized']) {
-                    AuthService.setAuthorizedStat(false)
-                    setAuthorizedStat(false)
-                    CurrentUserService.setCurrentUser(null)
-                }
-                else {
-                    AuthService.setAuthorizedStat(true)
-                    CurrentUserService.setCurrentUser(data)
-                    setAuthorizedStat(1 == 1)
-                }
-            })
     }, [])
     return (
         <div>
