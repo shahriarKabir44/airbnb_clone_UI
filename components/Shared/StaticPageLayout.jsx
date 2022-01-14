@@ -47,7 +47,7 @@ function StaticPageLayout({ content }) {
                 </div>
 
             </main>
-            <style jsx>
+            <style jsx="true">
                 {`main {
                     position: relative;
                     background-color:white;

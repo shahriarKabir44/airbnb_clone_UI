@@ -23,7 +23,7 @@ function Modal({ children, setModalStatus, modalStatus }) {
             <div className={` modal-body  ${status ? "fall" : "climb"} `} >
                 {children}
             </div>
-            <style jsx>
+            <style jsx="true">
                 {`
                 .modal-background{
                     position: fixed;

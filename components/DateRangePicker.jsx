@@ -94,7 +94,7 @@ function DateRangePicker({ setStayDuration, setBeginDate, setLastdate }) {
                     onDayChange={(day) => { updateEndDate(day) }}
                 />
             </div>
-            <style jsx>{`
+            <style jsx="true">{`
                 .date-range-picker-container >div{
                     display: grid;
                     grid-template-columns: 30% auto;

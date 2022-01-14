@@ -9,7 +9,7 @@ function ReservationList({ reservationList }) {
             {reservationList.map((reservation, index) => {
                 return (<ReservationElement key={index} reservation={reservation} />)
             })}
-            <style jsx>
+            <style jsx="true">
                 {`
                     .reservationsRoot{
 

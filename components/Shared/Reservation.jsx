@@ -202,7 +202,7 @@ function Reservation({ house }) {
                 <button className="reserve" onClick={() => { cancelReservation() }} > Cancel reservation </button>
 
             </div>}
-            <style jsx> {`
+            <style jsx="true"> {`
             .reserve{
                 background-color: rgb(255, 90, 95);
                 color: white;

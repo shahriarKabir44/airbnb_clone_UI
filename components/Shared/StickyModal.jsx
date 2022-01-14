@@ -17,7 +17,7 @@ function StickyModal(props) {
                     </button>
                 </div>
             </div>
-            <style jsx>
+            <style jsx="true">
                 {`
                     .buttons{
                         text-align: center;

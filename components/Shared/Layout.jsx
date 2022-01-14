@@ -28,7 +28,7 @@ function Layout({ content }) {
                 {modalStatus == 2 && <Signup toggleModalType={setModalStatus} />}
             </Modal>}
             <main> {content} </main>
-            <style jsx>
+            <style jsx="true">
                 {`main {
                     position: relative;
                     background-color:white;

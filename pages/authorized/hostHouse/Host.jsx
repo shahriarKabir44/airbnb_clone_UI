@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import CurrentUserService from '../../services/CurrentUserService'
 import StickyModal from '../../../components/Shared/StickyModal'
 import Layout from '../../../components/Shared/Layout'
+import AuthService from '../../services/AuthService';
+import Globals from '../../Globals';
 function Host(props) {
-    const [currentUser, setCurrentUser] = useState(null)
+    const [currentUser, setCurrentuser] = useState(null)
     const [hostingInfo, setHostingInfo] = useState({
         picture: "",
         type: "Entire house",
@@ -13,62 +15,65 @@ function Host(props) {
         price: ""
     })
     useEffect(() => {
-        CurrentUserService.getCurrentUser().subscribe(({ state }) => {
-            console.log(state);
-            setCurrentUser(state)
-        })
-    })
+        Globals.httpRequest(Globals.checkAuthorizeization)
+            .then(data => {
+                if (data['unauthorized']) {
+                    CurrentUserService.setCurrentUser(null)
+                    AuthService.setAuthorizedStat(false)
+                    setCurrentuser(null)
+                }
+                else {
+                    CurrentUserService.setCurrentUser(data)
+                    AuthService.setAuthorizedStat(true)
+                    setCurrentuser(data)
+                }
+            })
+    }, [])
     return (
+
         <div>
+            <Layout content={
+                <div>
+                    {!currentUser && <StickyModal />}
+                    {currentUser && <div className="hostingRoot">
+                        <div className="hostingForm">
+                            <div className="form-style-10">
+                                <h1>Host you house!<span>Fill up the form and host your house on AirBNB!</span></h1>
+                                <form>
+                                    <div className="section"><span>1</span>Location</div>
+                                    <div className="inner-wrap">
+                                        <label>Town name <textarea onChange={e => {
+                                            setHostingInfo({ ...hostingInfo, town: e.target.value })
+                                        }} name="field2"></textarea></label>
+                                    </div>
 
-            {currentUser && <div>
-                <Layout content={
-                    <div>
-                        {!currentUser && <StickyModal />}
-                        {currentUser && <div className="hostingRoot">
-                            <div className="hostingForm">
-                                <div className="form-style-10">
-                                    <h1>Host you house!<span>Fill up the form and host your house on AirBNB!</span></h1>
-                                    <form>
-                                        <div className="section"><span>1</span>Location</div>
-                                        <div className="inner-wrap">
-                                            <label>Town name <textarea onChange={e => {
-                                                setHostingInfo({ ...hostingInfo, town: e.target.value })
-                                            }} name="field2"></textarea></label>
-                                        </div>
+                                    <div className="section"><span>2</span>Title & Description</div>
+                                    <div className="inner-wrap">
+                                        <label>Home title <input onChange={e => {
+                                            setHostingInfo({ ...hostingInfo, title: e.target.value })
+                                        }} type="email" name="field3" /></label>
+                                        <label>Home description {hostingInfo.description} <textarea onChange={e => {
+                                            setHostingInfo({ ...hostingInfo, description: e.target.value })
+                                        }} name="field4"></textarea></label>
+                                    </div>
 
-                                        <div className="section"><span>2</span>Title & Description</div>
-                                        <div className="inner-wrap">
-                                            <label>Home title <input onChange={e => {
-                                                setHostingInfo({ ...hostingInfo, title: e.target.value })
-                                            }} type="email" name="field3" /></label>
-                                            <label>Home description {hostingInfo.description} <textarea onChange={e => {
-                                                setHostingInfo({ ...hostingInfo, description: e.target.value })
-                                            }} name="field4"></textarea></label>
-                                        </div>
-
-                                        <div className="section"><span>3</span>Pricing:</div>
-                                        <div className="inner-wrap">
-                                            <label>Price per day <input onChange={e => {
-                                                setHostingInfo({ ...hostingInfo, price: e.target.value })
-                                            }} type="number" name="field6" /></label>
-                                        </div>
-                                        <div className="button-section">
-                                            <input type="submit" name="Sign Up" />
-                                            <span className="privacy-policy">
-                                                <input type="checkbox" name="field7" />You agree to our Terms and Policy.
-                                            </span>
-                                        </div>
-                                    </form>
-                                </div>
+                                    <div className="section"><span>3</span>Pricing:</div>
+                                    <div className="inner-wrap">
+                                        <label>Price per day <input onChange={e => {
+                                            setHostingInfo({ ...hostingInfo, price: e.target.value })
+                                        }} type="number" name="field6" /></label>
+                                    </div>
+                                    <div className="button-section">
+                                        <input type="submit" name="Sign Up" />
+                                        <span className="privacy-policy">
+                                            <input type="checkbox" name="field7" />You agree to our Terms and Policy.
+                                        </span>
+                                    </div>
+                                </form>
                             </div>
-                        </div>}
-                    </div>
-
-                } />
-                <style jsx>
-                    {`
-                        .form-style-10{
+                        </div><style jsx="true">
+                            {` 
+                          .form-style-10{
                             width:450px;
                             padding:30px;
                             margin:40px auto;
@@ -188,9 +193,18 @@ function Host(props) {
                             text-align: right;
                         }
                     `}
-                </style>
-            </div>}
+                        </style>
+                    </div>
+
+
+                    }
+
+                </div>
+
+            } />
+
         </div>
+
     );
 }
 

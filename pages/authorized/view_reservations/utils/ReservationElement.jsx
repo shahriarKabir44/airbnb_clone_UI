@@ -59,7 +59,7 @@ function ReservationElement({ reservation }) {
                 </div>}
 
             </div>
-            <style jsx>
+            <style jsx="true">
                 {`
                     .accordionbtn{
                         top: 50%;

@@ -58,7 +58,7 @@ function Header() {
                     </li>
                 </ul>}
             </nav>
-            <style jsx>
+            <style jsx="true">
                 {
                     `
                     .nav-container{
