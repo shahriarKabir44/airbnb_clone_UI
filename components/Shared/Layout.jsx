@@ -26,7 +26,6 @@ function Layout({ content }) {
                 }
                 else {
                     AuthService.setAuthorizedStat(true)
-                    console.log(data);
                     CurrentUserService.setCurrentUser(data)
                     setAuthorizedStat(1 == 1)
                 }
