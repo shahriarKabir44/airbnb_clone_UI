@@ -65,6 +65,14 @@ function Header() {
                         display: flex;
                         justify-content: space-between;
                         border-bottom: 1px solid #eee;
+                        position: fixed;
+                        width: 100%;
+                        z-index: 1000;
+                        overflow: hidden;
+                        background: white;
+                        top: 0;
+                        left: 0;
+                        padding: 0 1em;
                     }
                     .nav_ul{
                         list-style : none;

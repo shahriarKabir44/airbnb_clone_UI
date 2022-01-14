@@ -14,6 +14,7 @@ function Host(props) {
         description: "",
         price: ""
     })
+    const [housePhoto, setHousePhoto] = useState(null)
     useEffect(() => {
         Globals.httpRequest(Globals.checkAuthorizeization)
             .then(data => {
@@ -52,7 +53,7 @@ function Host(props) {
                                         <label>Home title <input onChange={e => {
                                             setHostingInfo({ ...hostingInfo, title: e.target.value })
                                         }} type="email" name="field3" /></label>
-                                        <label>Home description {hostingInfo.description} <textarea onChange={e => {
+                                        <label>Home description <textarea onChange={e => {
                                             setHostingInfo({ ...hostingInfo, description: e.target.value })
                                         }} name="field4"></textarea></label>
                                     </div>
@@ -63,6 +64,14 @@ function Host(props) {
                                             setHostingInfo({ ...hostingInfo, price: e.target.value })
                                         }} type="number" name="field6" /></label>
                                     </div>
+                                    <div className="section"><span>3</span>Photo:</div>
+                                    <div className="inner-wrap">
+                                        <label>Add a nice photo of your house!
+                                            <input onChange={e => {
+                                                setHostingInfo({ ...hostingInfo, picture: URL.createObjectURL(e.target.files[0]) })
+                                            }} type="file" name="field6" />
+                                        </label>
+                                    </div>
                                     <div className="button-section">
                                         <input type="submit" name="Sign Up" />
                                         <span className="privacy-policy">
@@ -71,7 +80,9 @@ function Host(props) {
                                     </div>
                                 </form>
                             </div>
-                        </div><style jsx="true">
+                            
+                        </div>
+                        <style jsx="true">
                             {` 
                           .form-style-10{
                             width:450px;
