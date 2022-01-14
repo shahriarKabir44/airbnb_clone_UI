@@ -3,7 +3,7 @@ import Globals from '../../Globals'
 import CurrentUserService from '../../services/CurrentUserService';
 import AuthService from '../../services/AuthService'
 import Layout from '../../../components/Shared/Layout'
-import StickyModal from './utils/StickyModal'
+import StickyModal from '../../../components/Shared/StickyModal'
 import ReservationList from './utils/ReservationList';
 function My_reservations(props) {
     const [currentUser, setCurrentuser] = useState(null)

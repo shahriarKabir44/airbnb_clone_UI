@@ -30,7 +30,8 @@ class Globals {
       }
       if (body) data.body = JSON.stringify(body)
       var resp= await fetch(this.SERVER_URL + path, data).then(res => res.json())
-       return resp.data
+
+      return resp.data
    }
 }
 

@@ -10,7 +10,6 @@ function Header() {
 
         Globals.httpRequest(Globals.checkAuthorizeization)
             .then(data => {
-
                 if (data['unauthorized']) {
                     AuthService.setAuthorizedStat(false)
                     setAuthorizedStat(false)
@@ -49,7 +48,10 @@ function Header() {
                 </ul>}
                 {isAuthorized && <ul className="nav_ul">
                     <li className="nav_item" >
-                        <Link href='/authorized/view_reservations/My_reservations' as='/my-reservations'>Bookings </Link>
+                        <Link href='/authorized/view_reservations/My_reservations' as='/authorized/view_reservations/My_reservations'>Bookings </Link>
+                    </li>
+                    <li className="nav_item" >
+                        <Link href='/authorized/hostHouse/Host' as='/authorized/hostHouse/Host'>Host </Link>
                     </li>
                     <li className="nav_item" onClick={() => { logout() }} >
                         <Link href='#'>Logout </Link>
