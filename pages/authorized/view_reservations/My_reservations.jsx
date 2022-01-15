@@ -20,7 +20,7 @@ function My_reservations(props) {
                     CurrentUserService.setCurrentUser(data)
                     AuthService.setAuthorizedStat(true)
                     setCurrentuser(data)
-                    Globals.httpRequest(Globals.getReservationList, { userId: data.Id })
+                    Globals.httpRequest(Globals.getReservationList, { userId: data._id })
                         .then(data => {
                             setReservationList(data)
                             console.log(data);

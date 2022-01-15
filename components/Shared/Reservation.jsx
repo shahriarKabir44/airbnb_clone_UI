@@ -30,7 +30,7 @@ function Reservation({ house }) {
             setCureentUser(currentUser)
             if (currentUser) {
                 Globals.httpRequest(Globals.isReservedURL, {
-                    userId: currentUser.Id, location: house.Id
+                    userId: currentUser._id, location: house._id
                 }, false)
                     .then(reservationStatus => {
                         setReservationStaus(reservationStatus)
@@ -46,10 +46,10 @@ function Reservation({ house }) {
 
     async function confirmReservation() {
         let data = {
-            locationId: house.Id,
+            locationId: house._id,
             startDate: startDate * 1,
             endDate: endDate * 1,
-            userId: user.Id,
+            userId: user._id,
             cost: stayDuration * house.price
         }
         setConfirmationModalVisibility(false)

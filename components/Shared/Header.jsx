@@ -7,9 +7,12 @@ import Globals from "../../pages/Globals";
 function Header() {
     const [isAuthorized, setAuthorizedStat] = useState(false)
     useEffect(() => {
-
+        AuthService.isAuthorized().subscribe(({ state }) => {
+            setAuthorizedStat(state)
+        })
         Globals.httpRequest(Globals.checkAuthorizeization)
             .then(data => {
+                console.log(data, 'auth');
                 if (data['unauthorized']) {
                     AuthService.setAuthorizedStat(false)
                     setAuthorizedStat(false)
@@ -67,7 +70,7 @@ function Header() {
                         border-bottom: 1px solid #eee;
                         position: fixed;
                         width: 100%;
-                        z-index: 1000;
+                        z-index: 100;
                         overflow: hidden;
                         background: white;
                         top: 0;

@@ -47,7 +47,7 @@ function ReservationElement({ reservation }) {
                     </div>
                     <div className="accordionElement">
                         <button className="accordionbtn houseDetailsbtn">
-                            <Link href="/houses/[Id]" as={'/houses/' + reservation.locationId}>
+                            <Link href="/houses/[_id]" as={'/houses/' + reservation.locationId}>
                                 <a>
                                     Location Details
                                 </a>

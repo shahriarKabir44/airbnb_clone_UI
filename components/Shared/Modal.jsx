@@ -46,7 +46,7 @@ function Modal({ children, setModalStatus, modalStatus }) {
                     position: fixed;
                     border-radius: 10px;
                     box-shadow: 5px 5px 5px 5px rgb(0 0 0 / 50%);
-                    z-index:200;
+                    z-index:1000;
                     
                 }
                 .fall{

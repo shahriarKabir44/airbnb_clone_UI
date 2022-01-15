@@ -7,6 +7,7 @@ export default function Home() {
 	useEffect(() => {
 		Globals.httpRequest(Globals.getAllHousesPath)
 			.then(houseList => {
+				console.log(houseList);
 				setHouses(houseList)
 			})
 

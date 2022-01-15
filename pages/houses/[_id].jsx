@@ -5,7 +5,7 @@ import CurrentHouseService from "../services/CurrentHouseService";
 import Globals from "../Globals";
 function House({ house }) {
 
-    var { Id, picture, type, town, title, description, guests, price } = house
+    var { _id, picture, type, town, title, description, guests, price } = house
     useEffect(() => {
         CurrentHouseService.setcurrentHouse(house)
     })
@@ -47,8 +47,8 @@ function House({ house }) {
     );
 }
 export async function getServerSideProps({ query }) {
-    const { Id } = query
-    var { data } = await fetch(`${Globals.SERVER_URL + Globals.getHousePath}${Id}`).then(res => res.json())
+    const { _id } = query
+    var { data } = await fetch(`${Globals.SERVER_URL + Globals.getHousePath}${_id}`).then(res => res.json())
     return {
         props: { house: data }
     }

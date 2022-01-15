@@ -32,6 +32,14 @@ function Host(props) {
                 }
             })
     }, [])
+    function convertImage(image) {
+        let fileReader = new FileReader()
+        fileReader.onload = function () {
+            setHousePhoto(fileReader.result)
+            console.log(fileReader.result);
+        }
+        fileReader.readAsDataURL(image)
+    }
     return (
 
         <div>
@@ -87,7 +95,7 @@ function Host(props) {
                                     <div className="inner-wrap">
                                         <label style={{ display: "flex", justifyContent: "space-between" }}><p>Add a nice photo of your house!</p>
                                             <input required onChange={e => {
-                                                setHousePhoto(e.target.files[0])
+                                                convertImage(e.target.files[0])
                                                 setHostingInfo({ ...hostingInfo, picture: URL.createObjectURL(e.target.files[0]) })
                                             }} type="file" name="field6" />
                                         </label>

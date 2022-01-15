@@ -15,7 +15,6 @@ function Signup({ toggleModalType }) {
         }
 
         var payload = await Globals.httpRequest(Globals.registerPath, data)
-        console.log(payload);
         if (!payload) localStorage.clear()
         else {
             localStorage.setItem('token', payload.token)
