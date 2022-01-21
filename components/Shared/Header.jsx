@@ -12,7 +12,6 @@ function Header() {
         })
         Globals.httpRequest(Globals.checkAuthorizeization)
             .then(data => {
-                console.log(data, 'auth');
                 if (data['unauthorized']) {
                     AuthService.setAuthorizedStat(false)
                     setAuthorizedStat(false)

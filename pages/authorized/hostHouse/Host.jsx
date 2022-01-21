@@ -14,12 +14,14 @@ function Host(props) {
         town: "",
         title: "",
         description: "",
-        price: ""
+        price: "",
+        ownerId: ""
     })
     const [housePhoto, setHousePhoto] = useState(null)
     useEffect(() => {
         Globals.httpRequest(Globals.checkAuthorizeization)
             .then(data => {
+                console.log(data);
                 if (data['unauthorized']) {
                     CurrentUserService.setCurrentUser(null)
                     AuthService.setAuthorizedStat(false)
@@ -29,16 +31,18 @@ function Host(props) {
                     CurrentUserService.setCurrentUser(data)
                     AuthService.setAuthorizedStat(true)
                     setCurrentuser(data)
+                    setHostingInfo({ ...hostingInfo, ownerId: data._id })
                 }
             })
     }, [])
     function convertImage(image) {
-        let fileReader = new FileReader()
-        fileReader.onload = function () {
-            setHousePhoto(fileReader.result)
-            console.log(fileReader.result);
-        }
-        fileReader.readAsDataURL(image)
+        // let fileReader = new FileReader()
+        // fileReader.onload = function () {
+        //     setHousePhoto(fileReader.result)
+
+        // }
+        // fileReader.readAsDataURL(image)
+        setHostingInfo(image)
     }
     return (
 
@@ -54,6 +58,21 @@ function Host(props) {
                                 setConfirmationModalVisibility(0)
                             }}
                             onConfirm={() => {
+                                setHostingInfo({ ...hostingInfo, picture: '' })
+                                let formData = new FormData()
+                                formData.append('img', housePhoto)
+                                fetch(Globals.SERVER_URL + Globals.hostHouseURL, {
+                                    method: 'POST',
+                                    body: formData,
+                                    headers: {
+                                        'authorization': `bearer ${localStorage.getItem('token')}`,
+                                        'Content-Type': 'multipart/form-data'
+                                    }
+                                })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        console.log(data)
+                                    })
 
                             }}
                         >

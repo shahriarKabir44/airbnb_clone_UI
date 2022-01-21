@@ -14,7 +14,9 @@ class Globals {
    static cancelReservationURL='authorized/booking/CancelReservation'
    static getReservationList='authorized/booking/GetBookingList'
 
-   static async httpRequest(path, body = null, isAuthorizationNeeded=false) {
+   static hostHouseURL='authorized/hosting/hostHouse'
+
+   static async httpRequest(path, body = null,shouldStringify=true, isAuthorizationNeeded=false) {
       if(isAuthorizationNeeded && !localStorage.getItem('token')){
          CurrentUserService.setCurrentUser(null)
          AuthService.setAuthorizedStat(false)
@@ -28,7 +30,10 @@ class Globals {
          }
 
       }
-      if (body) data.body = JSON.stringify(body)
+      if (body){
+          data.body = JSON.stringify(body)
+          if(!shouldStringify)data.body=body
+         }
       var resp= await fetch(this.SERVER_URL + path, data).then(res => res.json())
 
       return resp.data
