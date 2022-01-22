@@ -49,12 +49,13 @@ function StaticPageLayout({ content }) {
             </main>
             <style jsx="true">
                 {`main {
-                    position: relative;
-                    background-color:white;
-                    max-width: 56em;
-                    margin: 0 auto;
-                    padding:2em;
-                    box-sizing: border-box;
+                   position: relative;
+                   background-color: white;
+                   max-width: 56em;
+                   
+                   margin: 200px auto;
+                   padding: 2em;
+                   box-sizing: border-box;
                 }
                 .container{
                     display: grid;

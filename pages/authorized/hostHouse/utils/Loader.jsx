@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-function Loader(props) {
-    return (
-        <div>
-            <div class="loading" id="loader"> </div>
-            <style jsx="true">
-                {`
+function Loader({ isVisible }) {
+  useEffect(() => { }, [isVisible])
+  return (
+    <div>
+      <div className={` loading ${isVisible ? 'displayBlock' : 'displayNone'} `} id="loader"> </div>
+      <style jsx="true">
+        {`
+                    .displayBlock{
+                      display: block
+                    }
+                    .displayNone{
+                      display: none
+                    }
                     /* Absolute Center Spinner */
                     .loading {
                       position: fixed;
@@ -143,9 +150,9 @@ function Loader(props) {
                     }
                     
                 `}
-            </style>
-        </div>
-    );
+      </style>
+    </div>
+  );
 }
 
 export default Loader;

@@ -55,6 +55,7 @@ function Host() {
                                 setConfirmationModalVisibility(0)
                             }}
                             onConfirm={() => {
+                                setConfirmationModalVisibility(0)
                                 setLoaderVisibility(1)
                                 setHostingInfo({ ...hostingInfo, picture: '' })
                                 let formData = new FormData()
@@ -69,11 +70,13 @@ function Host() {
                                     }
                                 })
                                     .then(response => response.json())
-                                    .then(data => {
+                                    .then(({ data }) => {
+
                                         if (data.success) {
                                             setLoaderVisibility(0)
                                             setCompletionStatus(1)
                                         }
+                                        console.log(data);
                                     })
 
                             }}
@@ -93,7 +96,7 @@ function Host() {
                         </ConfirmationModal>
 
 
-                        {canShowLolader && <Loader />}
+                        <Loader isVisible={canShowLolader} />
                         <div className="hostingForm">
                             <div className="form-style-10">
                                 <h1>Host you house!<span>Fill up the form and host your house on AirBNB!</span></h1>

@@ -4,7 +4,7 @@ import Modal from '../../../../components/Shared/Modal';
 function ConfirmationModal({ modalStatus, setModalStatus, onConfirm, onCancel, children }) {
     return (
         <div>
-            <Modal modalStatus={modalStatus} setModalStatus={setModalStatus} >
+            <Modal modalStatus={modalStatus} setModalStatus={setModalStatus} isSticky={true} >
                 {children}
                 <div className="buttons">
                     <button className="confirm confirmationbtn" onClick={() => { onConfirm() }} >Proceed</button>

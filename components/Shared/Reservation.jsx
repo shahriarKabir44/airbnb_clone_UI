@@ -30,8 +30,8 @@ function Reservation({ house }) {
             setCureentUser(currentUser)
             if (currentUser) {
                 Globals.httpRequest(Globals.isReservedURL, {
-                    userId: currentUser._id, location: house._id
-                }, false)
+                    userId: currentUser._id + '', location: house._id
+                })
                     .then(reservationStatus => {
                         setReservationStaus(reservationStatus)
                     })

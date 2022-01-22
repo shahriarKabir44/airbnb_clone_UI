@@ -66,3 +66,15 @@ u {
   padding: 0.7em;
   font-size: 15px;
 }
+
+
+
+.houseBody {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  background: white;
+  padding: 1em;
+}
+
+body {
+  background: #e2e1e0;
+}

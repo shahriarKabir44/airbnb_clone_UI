@@ -15,7 +15,7 @@ export default function Home() {
 	return (
 		<Layout content={
 			<div>
-				<h2> Places to stay </h2>
+				<h2 style={{textAlign:'center'}}> Places to stay </h2>
 				<div className='houses'>
 					{houses.map((house, index) => {
 						return <House key={index} {...house} />
@@ -27,10 +27,11 @@ export default function Home() {
 				.houses {
 					display: grid;
 					grid-template-columns: 49% 49%;
-					grid-template-rows: 300px 300px;
+					
 					grid-gap: 2%;
 					
 				}
+				
       		`}
 				</style>
 			</div>} />

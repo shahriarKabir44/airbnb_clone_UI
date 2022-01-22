@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function Modal({ children, setModalStatus, modalStatus }) {
+function Modal({ children, setModalStatus, modalStatus, isSticky }) {
     const [status, setStatus] = useState(0)
     const [visibility, setVisibility] = useState(0)
     useEffect(() => {
@@ -17,7 +17,8 @@ function Modal({ children, setModalStatus, modalStatus }) {
     }
     return (
         <div className={`nav-container ${visibility ? "displayBlock" : "displayNone"} `}>
-            <div className="modal-background" onClick={() => toggle(0)}>
+            <div className="modal-background" onClick={() => { if (isSticky) toggle(0) }
+            }>
 
             </div>
             <div className={` modal-body  ${status ? "fall" : "climb"} `} >
