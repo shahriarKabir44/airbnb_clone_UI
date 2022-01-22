@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import CurrentUserService from '../../services/CurrentUserService'
 import StickyModal from '../../../components/Shared/StickyModal'
 import Layout from '../../../components/Shared/Layout'
 import AuthService from '../../services/AuthService';
 import Globals from '../../Globals';
 import ConfirmationModal from './utils/ConfirmationModal';
-function Host(props) {
+import Loader from './utils/Loader';
+function Host() {
     const [currentUser, setCurrentuser] = useState(null)
+    const [canShowLolader, setLoaderVisibility] = useState(0)
     const [canShowConfirmationModal, setConfirmationModalVisibility] = useState(0)
+    const [isUploadDone, setCompletionStatus] = useState(0)
     const [hostingInfo, setHostingInfo] = useState({
         picture: "",
         type: "Entire house",
@@ -36,13 +39,7 @@ function Host(props) {
             })
     }, [])
     function convertImage(image) {
-        // let fileReader = new FileReader()
-        // fileReader.onload = function () {
-        //     setHousePhoto(fileReader.result)
-
-        // }
-        // fileReader.readAsDataURL(image)
-        setHostingInfo(image)
+        setHousePhoto(image)
     }
     return (
 
@@ -58,20 +55,25 @@ function Host(props) {
                                 setConfirmationModalVisibility(0)
                             }}
                             onConfirm={() => {
+                                setLoaderVisibility(1)
                                 setHostingInfo({ ...hostingInfo, picture: '' })
                                 let formData = new FormData()
-                                formData.append('img', housePhoto)
+                                formData.append('file', housePhoto)
+                                formData.append('info', hostingInfo)
                                 fetch(Globals.SERVER_URL + Globals.hostHouseURL, {
                                     method: 'POST',
                                     body: formData,
                                     headers: {
                                         'authorization': `bearer ${localStorage.getItem('token')}`,
-                                        'Content-Type': 'multipart/form-data'
+                                        'data': JSON.stringify({ ...hostingInfo, picture: '' })
                                     }
                                 })
                                     .then(response => response.json())
                                     .then(data => {
-                                        console.log(data)
+                                        if (data.success) {
+                                            setLoaderVisibility(0)
+                                            setCompletionStatus(1)
+                                        }
                                     })
 
                             }}
@@ -80,6 +82,18 @@ function Host(props) {
 
                         </ConfirmationModal>
 
+                        <ConfirmationModal modalStatus={isUploadDone}
+                            setModalStatus={setCompletionStatus}
+                            onCancel={null}
+                            onConfirm={() => {
+                                location.href = '/'
+                            }}
+                        >
+                            <h2>Your house is succesfully hosted on Airbnb!</h2>
+                        </ConfirmationModal>
+
+
+                        {canShowLolader && <Loader />}
                         <div className="hostingForm">
                             <div className="form-style-10">
                                 <h1>Host you house!<span>Fill up the form and host your house on AirBNB!</span></h1>

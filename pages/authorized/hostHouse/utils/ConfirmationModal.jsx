@@ -8,7 +8,7 @@ function ConfirmationModal({ modalStatus, setModalStatus, onConfirm, onCancel, c
                 {children}
                 <div className="buttons">
                     <button className="confirm confirmationbtn" onClick={() => { onConfirm() }} >Proceed</button>
-                    <button className="cancel confirmationbtn" onClick={() => { onCancel() }} >Cancel</button>
+                    {onCancel && <button className="cancel confirmationbtn" onClick={() => { onCancel() }} >Cancel</button>}
                 </div>
             </Modal>
             <style jsx="true">
