@@ -8,33 +8,36 @@ class Globals {
    static loginPath = 'unauthorized/Login'
    static registerPath = 'unauthorized/Register'
    static checkAuthorizeization = 'unauthorized/IsAuthorized'
-
    static reserveRoomURL='authorized/booking/CreateBooking'
    static isReservedURL='authorized/booking/IsReserved'
    static cancelReservationURL='authorized/booking/CancelReservation'
    static getReservationListURL='graphql/'
 
-   static getReservationListGQL=function (userId){
-      return `query{
-         User(id:${userId}){
-           email
-           getReserved{
-              getLocationInfo{
-               picture
-               town 
-             }
-             time
-             startDate
-             endDate
-             status
-             cost
-             locationId
-           }
-         }
-       }`
+   static getReservationListGQL (userId){
+      return {
+         query:`query{
+            User(id:"${userId}"){
+              
+              getReserved{
+                 getLocationInfo{
+                  picture
+                  town 
+                }
+                time
+                startDate
+                endDate
+                status
+                cost
+                locationId
+              }
+            }
+          }`
+      }
    }
 
    static hostHouseURL='authorized/hosting/hostHouse'
+   static updateHouseImageURL='authorized/hosting/updateImage'
+
 
    static async httpRequest(path, body = null,shouldStringify=true, isAuthorizationNeeded=false) {
       if(isAuthorizationNeeded && !localStorage.getItem('token')){

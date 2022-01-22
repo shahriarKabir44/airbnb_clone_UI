@@ -6,6 +6,8 @@ import AuthService from '../../services/AuthService';
 import Globals from '../../Globals';
 import ConfirmationModal from './utils/ConfirmationModal';
 import Loader from './utils/Loader';
+import { storage } from './utils/firebase'
+
 function Host() {
     const [currentUser, setCurrentuser] = useState(null)
     const [canShowLolader, setLoaderVisibility] = useState(0)
@@ -18,8 +20,33 @@ function Host() {
         title: "",
         description: "",
         price: "",
-        ownerId: ""
+        ownerId: "",
+        _id: "",
     })
+    const handleFireBaseUpload = () => {
+        if (imageAsFile === '') {
+            console.error(`not an image, the image file is a ${typeof (housePhoto)}`)
+        }
+        const uploadTask = storage.ref(`/images/${imageAsFile.name}`).put(housePhoto)
+        uploadTask.on('state_changed',
+            (snapShot) => {
+                console.log(snapShot)
+            }, (err) => {
+                console.log(err)
+            }, () => {
+                storage.ref('images').child(housePhoto.name).getDownloadURL()
+                    .then(fireBaseUrl => {
+                        console.log(fireBaseUrl);
+
+                        Globals.httpRequest(Globals.updateHouseImageURL, { _id: hostingInfo._id, imageURL: fireBaseUrl })
+                            .then(data => {
+                                setLoaderVisibility(0)
+                                setCompletionStatus(1)
+                            })
+
+                    })
+            })
+    }
     const [housePhoto, setHousePhoto] = useState(null)
     useEffect(() => {
         Globals.httpRequest(Globals.checkAuthorizeization)
@@ -41,6 +68,19 @@ function Host() {
     function convertImage(image) {
         setHousePhoto(image)
     }
+    function submitHostingInfo() {
+        setConfirmationModalVisibility(0)
+        setLoaderVisibility(1)
+        setHostingInfo({ ...hostingInfo, picture: '' })
+        let formData = new FormData()
+        formData.append('file', housePhoto)
+        formData.append('info', hostingInfo)
+        Globals.httpRequest(Globals.hostHouseURL, { ...hostingInfo, picture: '' })
+            .then(data => {
+                setHostingInfo(data.info)
+                handleFireBaseUpload()
+            })
+    }
     return (
 
         <div>
@@ -55,30 +95,7 @@ function Host() {
                                 setConfirmationModalVisibility(0)
                             }}
                             onConfirm={() => {
-                                setConfirmationModalVisibility(0)
-                                setLoaderVisibility(1)
-                                setHostingInfo({ ...hostingInfo, picture: '' })
-                                let formData = new FormData()
-                                formData.append('file', housePhoto)
-                                formData.append('info', hostingInfo)
-                                fetch(Globals.SERVER_URL + Globals.hostHouseURL, {
-                                    method: 'POST',
-                                    body: formData,
-                                    headers: {
-                                        'authorization': `bearer ${localStorage.getItem('token')}`,
-                                        'data': JSON.stringify({ ...hostingInfo, picture: '' })
-                                    }
-                                })
-                                    .then(response => response.json())
-                                    .then(({ data }) => {
-
-                                        if (data.success) {
-                                            setLoaderVisibility(0)
-                                            setCompletionStatus(1)
-                                        }
-                                        console.log(data);
-                                    })
-
+                                submitHostingInfo()
                             }}
                         >
                             <h1>Are you sure?</h1>

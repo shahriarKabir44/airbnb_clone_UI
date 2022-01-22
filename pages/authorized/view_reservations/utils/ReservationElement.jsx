@@ -13,11 +13,11 @@ function ReservationElement({ reservation }) {
                     <img className='reservationImg' src={reservation.Place.picture} alt="" />
                     <div className="accordionElement">
                         <p> Location: </p>
-                        <p> {reservation.Place.town} </p>
+                        <p> {reservation.getLocationInfo.town} </p>
                     </div>
                     <div className="accordionElement">
                         <p> Duration: </p>
-                        <p> {getStayDuration(reservation.startDate, reservation.startDate)} days </p>
+                        <p> {getStayDuration(reservation.startDate, reservation.endDate)} days </p>
                     </div>
                     <div className="accordionElement">
                         {!canCollapse && <button className="accordionbtn expandbtn" onClick={() => {
@@ -35,11 +35,11 @@ function ReservationElement({ reservation }) {
                 {canCollapse && <div className="accordion">
                     <div className="accordionElement">
                         <p> Start date: </p>
-                        <p> {reservation.Place.town} </p>
+                        <p> {reservation.startDate} </p>
                     </div>
                     <div className="accordionElement">
                         <p> End date: </p>
-                        <p> {reservation.Place.town} </p>
+                        <p> {reservation.startDate} </p>
                     </div>
                     <div className="accordionElement">
                         <p> Cost: </p>
