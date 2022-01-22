@@ -17,7 +17,7 @@ function ReservationElement({ reservation }) {
                     </div>
                     <div className="accordionElement">
                         <p> Duration: </p>
-                        <p> {getStayDuration(reservation.startDate, reservation.endDate)} days </p>
+                        <p> {getStayDuration(reservation.startDate, reservation.startDate)} days </p>
                     </div>
                     <div className="accordionElement">
                         {!canCollapse && <button className="accordionbtn expandbtn" onClick={() => {

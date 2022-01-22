@@ -12,7 +12,27 @@ class Globals {
    static reserveRoomURL='authorized/booking/CreateBooking'
    static isReservedURL='authorized/booking/IsReserved'
    static cancelReservationURL='authorized/booking/CancelReservation'
-   static getReservationList='authorized/booking/GetBookingList'
+   static getReservationListURL='graphql/'
+
+   static getReservationListGQL=function (userId){
+      return `query{
+         User(id:${userId}){
+           email
+           getReserved{
+              getLocationInfo{
+               picture
+               town 
+             }
+             time
+             startDate
+             endDate
+             status
+             cost
+             locationId
+           }
+         }
+       }`
+   }
 
    static hostHouseURL='authorized/hosting/hostHouse'
 
