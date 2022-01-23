@@ -23,10 +23,8 @@ function My_reservations(props) {
                     Globals.httpRequest(Globals.getReservationListURL, Globals.getReservationListGQL(data._id))
                         .then(data => {
                             setReservationList(data.User.getReserved)
-                            console.log(data);
                         })
                         .catch(er => {
-                            console.log(er);
                         })
                 }
             })

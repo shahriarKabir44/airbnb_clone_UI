@@ -20,10 +20,9 @@ function Host() {
         title: "",
         description: "",
         price: "",
-        ownerId: "",
-
+        ownerId: ""
     })
-    const handleFireBaseUpload = () => {
+    const handleFireBaseUpload = (houseId) => {
         if (housePhoto === '') {
             console.error(`not an image, the image file is a ${typeof (housePhoto)}`)
         }
@@ -36,8 +35,7 @@ function Host() {
             .then(() => {
                 fileRef.getDownloadURL()
                     .then(url => {
-                        console.log(url);
-                        Globals.httpRequest(Globals.updateHouseImageURL, { _id: hostingInfo._id, imageURL: url })
+                        Globals.httpRequest(Globals.updateHouseImageURL, { _id: houseId, imageURL: url })
                             .then(data => {
                                 setLoaderVisibility(0)
                                 setCompletionStatus(1)
@@ -53,7 +51,6 @@ function Host() {
 
         Globals.httpRequest(Globals.checkAuthorizeization)
             .then(data => {
-                console.log(data);
                 if (data['unauthorized']) {
                     CurrentUserService.setCurrentUser(null)
                     AuthService.setAuthorizedStat(false)
@@ -74,14 +71,13 @@ function Host() {
         setConfirmationModalVisibility(0)
         setLoaderVisibility(1)
         setHostingInfo({ ...hostingInfo, picture: '' })
-        let formData = new FormData()
-        formData.append('file', housePhoto)
-        formData.append('info', hostingInfo)
-        Globals.httpRequest(Globals.hostHouseURL, { ...hostingInfo, picture: '' })
+
+        let hostingData = { ...hostingInfo, picture: '' }
+        delete hostingData._id
+        Globals.httpRequest(Globals.hostHouseURL, hostingData)
             .then(data => {
-                setHostingInfo(data.info)
-                console.log(data);
-                handleFireBaseUpload()
+                setHostingInfo(data.info.data)
+                handleFireBaseUpload(data.info.data._id)
             })
     }
     return (

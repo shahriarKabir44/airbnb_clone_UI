@@ -2,7 +2,6 @@
 import Link from 'next/link';
 import ReservationElement from './ReservationElement';
 function ReservationList({ reservationList }) {
-    console.log(reservationList);
 
     return (
         <div className='reservationsRoot'>

@@ -13,7 +13,6 @@ function Login({ toggleModalType }) {
             email: email
         }
         var payload = await Globals.httpRequest(Globals.loginPath, data)
-        console.log(payload);
         if (!payload) localStorage.clear()
         else {
             localStorage.setItem('token', payload.token)

@@ -12,7 +12,6 @@ function Layout({ content }) {
     const [isAuthorized, setAuthorizedStat] = useState(false)
     useEffect(() => {
         ModalToggleService.getState().subscribe(({ state }) => {
-            console.log(state);
             setModalStatus(state)
         })
         AuthService.isAuthorized().subscribe(({ state }) => {
