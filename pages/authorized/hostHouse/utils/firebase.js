@@ -1,22 +1,15 @@
-import firebase from 'firebase/app'
-
-import 'firebase/storage'
+import * as firebase from "firebase/app";
+import "firebase/storage";
 
 var firebaseConfig = {
-    apiKey: process.env.apiKey,
-    authDomain: process.env.authDomain,
-    databaseURL:process.env.databaseURL,
-    projectId: process.env.projectId,
-    storageBucket: process.env.storageBucket,
-    messagingSenderId: process.env.messagingSenderId,
-    appId:process.env.appId,
-    measurementId: process.env.measurementId
-  };
-  firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
+  apiKey: "AIzaSyBQSes_ECwHaryrF8vfsjVD_1wWf7cz8Wc",
+  authDomain: "pqrs-9e8eb.firebaseapp.com",
+  databaseURL: "https://pqrs-9e8eb.firebaseio.com",
+  projectId: "pqrs-9e8eb",
+  storageBucket: "pqrs-9e8eb.appspot.com",
+  messagingSenderId: "998501066190",
+  appId: "1:998501066190:web:0be1a2a2d5116d7c77b79f",
+ // measurementId: "G-54PCTERKRM"
+};
 
-  const storage = firebase.storage()
-
-  export  {
-    storage, firebase as default
-  }
+export const app = firebase.initializeApp(firebaseConfig);

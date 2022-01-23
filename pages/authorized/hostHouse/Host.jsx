@@ -6,7 +6,7 @@ import AuthService from '../../services/AuthService';
 import Globals from '../../Globals';
 import ConfirmationModal from './utils/ConfirmationModal';
 import Loader from './utils/Loader';
-import { storage } from './utils/firebase'
+import { app } from './utils/firebase'
 
 function Host() {
     const [currentUser, setCurrentuser] = useState(null)
@@ -21,34 +21,36 @@ function Host() {
         description: "",
         price: "",
         ownerId: "",
-        _id: "",
+
     })
     const handleFireBaseUpload = () => {
-        if (imageAsFile === '') {
+        if (housePhoto === '') {
             console.error(`not an image, the image file is a ${typeof (housePhoto)}`)
         }
-        const uploadTask = storage.ref(`/images/${imageAsFile.name}`).put(housePhoto)
-        uploadTask.on('state_changed',
-            (snapShot) => {
-                console.log(snapShot)
-            }, (err) => {
-                console.log(err)
-            }, () => {
-                storage.ref('images').child(housePhoto.name).getDownloadURL()
-                    .then(fireBaseUrl => {
-                        console.log(fireBaseUrl);
 
-                        Globals.httpRequest(Globals.updateHouseImageURL, { _id: hostingInfo._id, imageURL: fireBaseUrl })
+        let storageRef = app.storage().ref('houses')
+        let fileRef = storageRef.child(housePhoto.name)
+
+        fileRef.put(housePhoto)
+            .then(snapShot => { })
+            .then(() => {
+                fileRef.getDownloadURL()
+                    .then(url => {
+                        console.log(url);
+                        Globals.httpRequest(Globals.updateHouseImageURL, { _id: hostingInfo._id, imageURL: url })
                             .then(data => {
                                 setLoaderVisibility(0)
                                 setCompletionStatus(1)
                             })
-
                     })
             })
+
+
     }
     const [housePhoto, setHousePhoto] = useState(null)
     useEffect(() => {
+
+
         Globals.httpRequest(Globals.checkAuthorizeization)
             .then(data => {
                 console.log(data);
@@ -78,6 +80,7 @@ function Host() {
         Globals.httpRequest(Globals.hostHouseURL, { ...hostingInfo, picture: '' })
             .then(data => {
                 setHostingInfo(data.info)
+                console.log(data);
                 handleFireBaseUpload()
             })
     }
