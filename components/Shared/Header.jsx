@@ -67,6 +67,9 @@ function Header() {
                     <li className="nav_item" >
                         <Link href='/authorized/hostHouse/Host' as='/authorized/hostHouse/Host'>Host </Link>
                     </li>
+                    <li className="nav_item" >
+                        <Link href='/authorized//viewHostings/Hostings' as='/authorized/viewHostings/Hostings'>Hostings </Link>
+                    </li>
                     <li className="nav_item" onClick={() => { logout() }} >
                         <Link href='#'>Logout </Link>
                     </li>

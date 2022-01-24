@@ -4,11 +4,13 @@ import CurrentUserService from '../../services/CurrentUserService';
 import AuthService from '../../services/AuthService'
 import Layout from '../../../components/Shared/Layout'
 import StickyModal from '../../../components/Shared/StickyModal'
-import ReservationList from './utils/ReservationList';
-function My_reservations(props) {
-    const [currentUser, setCurrentuser] = useState(null)
-    const [reservationList, setReservationList] = useState([])
+import HostingList from './utils/HostingList';
+
+function Hostings() {
     useEffect(() => {
+        const [currentUser, setCurrentuser] = useState(null)
+        const [hostingList, setHostingList] = useState([])
+
         Globals.httpRequest(Globals.checkAuthorizeization)
             .then(data => {
                 if (data['unauthorized']) {
@@ -20,10 +22,10 @@ function My_reservations(props) {
                     CurrentUserService.setCurrentUser(data)
                     AuthService.setAuthorizedStat(true)
                     setCurrentuser(data)
-                    Globals.httpRequest(Globals.graphqlURL, Globals.getReservationListGQL(data._id))
+                    Globals.httpRequest(Globals.graphqlURL, Globals.getHostingsGQL(data._id))
                         .then(data => {
                             console.log(data);
-                            setReservationList(data.User.getReserved)
+                            setHostingList(data.User.getOwned)
                         })
                         .catch(er => {
                         })
@@ -31,20 +33,25 @@ function My_reservations(props) {
             })
     }, [])
     return (
-        <Layout content={<div>
-            {!currentUser && <StickyModal />}
-            {currentUser && reservationList && <div>
+        <div>
+            <Layout content={
+                <div>
+                    {!currentUser && <StickyModal />}
+                    {currentUser && reservationList && <div>
 
-                <div className="header" style={{ textAlign: "center" }}>
-                    <h2>My reservations</h2>
+                        <div className="header" style={{ textAlign: "center" }}>
+                            <h2>My Hostings</h2>
+                        </div>
+                        <div className="container">
+                            <HostingList hostingList={hostingList} />
+                        </div>
+                    </div>}
                 </div>
-                <div className="container">
-                    <ReservationList reservationList={reservationList} />
-                </div>
-            </div>}
+            } />
+
+
         </div>
-        } />
     );
 }
 
-export default My_reservations;
+export default Hostings;

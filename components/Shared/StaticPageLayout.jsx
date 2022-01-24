@@ -7,9 +7,13 @@ import Signup from "../Unauthorized/Signup";
 import AuthService from "../../pages/services/AuthService";
 import CurrentHouseService from "../../pages/services/CurrentHouseService";
 import Reservation from "./Reservation";
+import CurrentUserService from "../../pages/services/CurrentUserService";
 
 
 function StaticPageLayout({ content }) {
+
+    const [isOwned, setOwnershipStatus] = useState(false)
+
     const [modalStatus, setModalStatus] = useState(0)
     const [isAuthorized, setAuthorizedStat] = useState(false)
     const [currentHouse, setCurrentHouse] = useState(null)
@@ -19,11 +23,17 @@ function StaticPageLayout({ content }) {
         })
         CurrentHouseService.getcurrentHouse().subscribe(({ currentHouse }) => {
             setCurrentHouse(currentHouse)
+            CurrentUserService.getCurrentUser().subscribe(({ currentUser }) => {
+                setAuthorizedStat(currentUser != null)
+                if (currentUser) {
+                    if (currentUser._id == currentHouse.ownerId) {
+                        setOwnershipStatus(true)
+                    }
+                }
+            })
         })
 
-        AuthService.isAuthorized().subscribe(({ state }) => {
-            setAuthorizedStat(state)
-        })
+
 
 
     }, [currentHouse])
@@ -42,7 +52,7 @@ function StaticPageLayout({ content }) {
                 <div className="container">
                     {content}
                     <aside>
-                        {currentHouse && <Reservation house={currentHouse} />}
+                        {currentHouse && !isOwned && <Reservation house={currentHouse} />}
                     </aside>
                 </div>
 
