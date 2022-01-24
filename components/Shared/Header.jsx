@@ -6,10 +6,22 @@ import CurrentUserService from "../../pages/services/CurrentUserService";
 import Globals from "../../pages/Globals";
 function Header() {
     const [isAuthorized, setAuthorizedStat] = useState(false)
+    const [isFixed, setNavType] = useState(false)
     useEffect(() => {
         AuthService.isAuthorized().subscribe(({ state }) => {
             setAuthorizedStat(state)
         })
+
+        window.addEventListener('scroll', () => {
+            let scrollHeight = window.scrollY
+            if (scrollHeight > 100) {
+                setNavType(1)
+            }
+            else {
+                setNavType(0)
+            }
+        })
+
         Globals.httpRequest(Globals.checkAuthorizeization)
             .then(data => {
                 if (data['unauthorized']) {

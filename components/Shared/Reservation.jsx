@@ -22,17 +22,17 @@ function Reservation({ house }) {
     const [confirmationModalType, setConfirmationModalType] = useState(0)
 
 
-    const [canShowReservationModal, setReservationModalVisibility] = useState(0)
-
     const [canShowReservationStatModal, toggleReservatonStatModalVisibility] = useState(false)
     useEffect(() => {
         CurrentUserService.getCurrentUser().subscribe(({ currentUser }) => {
             setCureentUser(currentUser)
             if (currentUser) {
+                console.log(currentUser);
                 Globals.httpRequest(Globals.isReservedURL, {
                     userId: currentUser._id + '', location: house._id
                 })
                     .then(reservationStatus => {
+                        console.log(reservationStatus);
                         setReservationStaus(reservationStatus)
                     })
             }

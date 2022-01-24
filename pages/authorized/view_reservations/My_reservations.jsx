@@ -7,7 +7,7 @@ import StickyModal from '../../../components/Shared/StickyModal'
 import ReservationList from './utils/ReservationList';
 function My_reservations(props) {
     const [currentUser, setCurrentuser] = useState(null)
-    const [reservationList, setReservationList] = useState(null)
+    const [reservationList, setReservationList] = useState([])
     useEffect(() => {
         Globals.httpRequest(Globals.checkAuthorizeization)
             .then(data => {
@@ -22,6 +22,7 @@ function My_reservations(props) {
                     setCurrentuser(data)
                     Globals.httpRequest(Globals.getReservationListURL, Globals.getReservationListGQL(data._id))
                         .then(data => {
+                            console.log(data);
                             setReservationList(data.User.getReserved)
                         })
                         .catch(er => {

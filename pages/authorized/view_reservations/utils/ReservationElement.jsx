@@ -10,7 +10,7 @@ function ReservationElement({ reservation }) {
         <div>
             <div className='reservation' >
                 <div className="shortBody">
-                    <img className='reservationImg' src={reservation.Place.picture} alt="" />
+                    <img className='reservationImg' src={reservation.getLocationInfo.picture} alt="" />
                     <div className="accordionElement">
                         <p> Location: </p>
                         <p> {reservation.getLocationInfo.town} </p>

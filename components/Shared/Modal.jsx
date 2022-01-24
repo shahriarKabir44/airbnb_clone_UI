@@ -17,7 +17,7 @@ function Modal({ children, setModalStatus, modalStatus, isSticky }) {
     }
     return (
         <div className={`nav-container ${visibility ? "displayBlock" : "displayNone"} `}>
-            <div className="modal-background" onClick={() => { if (isSticky) toggle(0) }
+            <div className="modal-background" onClick={() => { if (!isSticky) toggle(0) }
             }>
 
             </div>
