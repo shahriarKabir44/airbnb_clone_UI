@@ -39,19 +39,33 @@ class Globals {
       return {
          query:`query{
             User(id:"${userId}"){
-              
                getOwned{
+                  _id
                   picture
-                    town 
-                    type
-                    title
-                    price
+                  town 
+                  type
+                  title
+                  price
                 }
             }
           }`
       }
    }
-
+   static getGuestListGQL(houseId){
+      return {
+         query:`query{
+            viewGuests(houseId:"${houseId}"){
+               getUserInfo{
+                 email
+               }
+               time
+               startDate
+               endDate
+               cost
+             }
+          }`
+      } 
+   }
    static hostHouseURL='authorized/hosting/hostHouse'
    static updateHouseImageURL='authorized/hosting/updateImage'
 

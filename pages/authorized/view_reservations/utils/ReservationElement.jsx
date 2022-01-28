@@ -8,9 +8,9 @@ function ReservationElement({ reservation }) {
 
     return (
         <div>
-            <div className='reservation' >
+            <div className='accordionRoot' >
                 <div className="shortBody">
-                    <img className='reservationImg' src={reservation.getLocationInfo.picture} alt="" />
+                    <img className='accordionImg' src={reservation.getLocationInfo.picture} alt="" />
                     <div className="accordionElement">
                         <p> Location: </p>
                         <p> {reservation.getLocationInfo.town} </p>
@@ -61,46 +61,11 @@ function ReservationElement({ reservation }) {
             </div>
             <style jsx="true">
                 {`
-                    .accordionbtn{
-                        top: 50%;
-                        position: relative;
-                        transform: translateY(-50%);
-                        color: white;
-                        cursor: pointer;
-                        border: none;
-                        border-radius: 5px;
-                        padding: 0.7em;
-                        font-size: 15px;
-                        
-                    }
+                    
                     .houseDetailsbtn{
                         background: #495042
                     }
-                    .expandbtn{
-                        background: #5cb156;
-                    }
-                     
-                    .reservation{
-                        background: #ebebeb;
-                        padding: 1em 0em;
-                        border: 1px solid;
-                        border-radius: 10px;
-                        margin: 1em 0em;
-                    }
-                    .shortBody, .accordion{
-                        color: black;
-                        display: flex;
-                        justify-content: space-around;
-                    }
-                    .accordionElement{
-                        color: black
-                    }
-                    .reservationImg{
-                        height: 90px;
-                    }
-                    .accordion{
-
-                    }
+                    
                 `}
             </style>
         </div>
